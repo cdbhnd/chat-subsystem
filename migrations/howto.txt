@@ -1,0 +1,7 @@
+https://github.com/afloyd/mongo-migrate
+
+##Before starting migration
+1. Export database by running this command : mongodump -h ds151082.mlab.com:51082 -d vivacasual -u <user> -p <password> -o <output directory>
+
+## Run Migration
+$ run migration on development DB by running this command: node ./node_modules/mongodb-migrate -runmm -cfg migrations/config/development.json

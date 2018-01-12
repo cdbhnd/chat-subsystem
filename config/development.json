@@ -1,0 +1,13 @@
+{
+    "secret": "chatsubsystem",
+    "password": {
+        "saltRounds": 10
+    },
+    "mongoDbSettings": {
+        "dbUser": "admin",
+        "dbPassword": "admin",
+        "dbHost": "ds247317.mlab.com:47317/chat-subsystem-dev"
+    },
+    "asset_folder": "assets",
+    "admin_key": "superpajacar"
+}

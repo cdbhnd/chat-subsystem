@@ -1,0 +1,24 @@
+{
+  "globalDependencies": {
+    "axios": "registry:dt/axios#0.9.1+20161128041239",
+    "config": "registry:dt/config#0.0.0+20160317120654",
+    "express": "registry:dt/express#4.0.0+20160708185218",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20161012061536",
+    "mongodb": "registry:dt/mongodb#2.1.0+20161110150902",
+    "node": "registry:dt/node#6.0.0+20161121110008",
+    "node-schedule": "registry:dt/node-schedule#1.1.0+20161119044246",
+    "request-promise": "registry:dt/request-promise#4.1.0+20161119044246",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
+    "socket.io": "registry:dt/socket.io#1.4.4+20170313110830"
+  },
+  "dependencies": {
+    "bcryptjs": "registry:dt/bcryptjs#2.3.0+20160428043022",
+    "bluebird": "registry:npm/bluebird#3.4.1+20160909132857",
+    "body-parser": "registry:npm/body-parser#1.15.2+20161116154925",
+    "debug": "registry:npm/debug#2.0.0+20160723033700",
+    "imap": "registry:dt/imap#0.8.14+20160915014424",
+    "jwt-simple": "registry:dt/jwt-simple#0.5.0+20160727002439",
+    "mailparser": "registry:dt/mailparser#0.5.2+20160915014424",
+    "request": "registry:npm/request#2.69.0+20160428223725"
+  }
+}

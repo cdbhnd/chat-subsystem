@@ -1,0 +1,145 @@
+{
+    "get": {
+        "consumes": [
+            "application/json"
+        ],
+        "description": "Get Conversations",
+        "parameters": [
+        {
+                "description": "Api access token (e.g. API [token])",
+                "in": "header",
+                "name": "Authorization",
+                "required": true,
+                "type": "string"
+        },
+        {
+                "description": "Api public key",
+                "in": "header",
+                "name": "c_api_key",
+                "required": true,
+                "type": "string"
+        },
+        {
+                "description": "Organization Id",
+                "in": "path",
+                "name": "orgId",
+                "required": true,
+                "type": "string"
+        },
+        {
+                "description": "Filter conversations by text",
+                "in": "query",
+                "name": "q",
+                "required": false,
+                "type": "string"
+        },
+        {
+                "description": "Sort conversations by property",
+                "in": "query",
+                "name": "_sort",
+                "required": false,
+                "type": "string"
+        },
+        {
+                "description": "Sort order",
+                "in": "query",
+                "name": "_order",
+                "required": false,
+                "type": "string"
+        },
+        {
+                "description": "Start index",
+                "in": "query",
+                "name": "_start",
+                "required": false,
+                "type": "number"
+        },
+        {
+                "description": "Conversations count",
+                "in": "query",
+                "name": "_limit",
+                "required": false,
+                "type": "number"
+        }],
+        "produces": [
+            "application/json"
+        ],"responses": {
+            "200": {
+                "description": "OK",
+                "schema": {
+                    "$ref": "../definitions/conversation.json"
+                }
+            },
+            "401": {
+                "description": "Unauthorized"
+            },
+            "500": {
+                "description": "Internal server error"
+            }
+        },
+        "tags": [
+            "v1"
+        ]
+    },
+    "post": {
+        "consumes": [
+            "application/json"
+        ],
+        "description": "Create new Conversation",
+        "parameters": [
+            {
+                    "description": "Api access token (e.g. API [token])",
+                    "in": "header",
+                    "name": "Authorization",
+                    "required": true,
+                    "type": "string"
+            },
+            {
+                    "description": "Api public key",
+                    "in": "header",
+                    "name": "c_api_key",
+                    "required": true,
+                    "type": "string"
+            },
+            {
+                    "description": "Organization Id",
+                    "in": "path",
+                    "name": "orgId",
+                    "required": true,
+                    "type": "string"
+            },
+            {
+                    "name": "body",
+                    "in": "body",
+                    "description": "New Conversation data",
+                    "required": true,
+                    "schema": {
+                        "$ref": "../definitions/conversation.json"
+                    }
+            }
+        ],
+        "produces": [
+            "application/json"
+        ],
+        "responses": {
+            "201": {
+                "description": "CREATED",
+                "schema": {
+                    "$ref": "../definitions/conversation.json"
+                }
+            },
+            "400": {
+                "description": "Bad Request"
+            },
+            "401": {
+                "description": "Unauthorized"
+            },
+            "500": {
+                "description": "Internal server error"
+            }
+        },
+        "tags": [
+            "v1"
+        ]
+    }
+}

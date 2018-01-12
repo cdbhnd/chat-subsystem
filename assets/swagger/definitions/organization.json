@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "description": "Organization Data",
+  "properties": {
+    "name": {
+      "description": "Organization name",
+      "type": "string"
+    },
+    "firstName": {
+      "description": "Organization admin first name",
+      "type": "string"
+    },
+    "lastName": {
+      "description": "Organization admin last name",
+      "type": "string"
+    },
+    "email": {
+      "description": "Organization admin email",
+      "type": "string"
+    },
+    "username": {
+      "description": "Organization admin username",
+      "type": "string"
+    },
+    "password": {
+      "description": "Organization admin password",
+      "type": "string"
+    }
+  }
+}

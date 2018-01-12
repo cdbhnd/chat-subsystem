@@ -1,0 +1,37 @@
+{
+  "basePath": "/",
+  "host": "localhost:8080",
+  "info": {
+    "description": "Chat Subsystem API specification",
+    "title": "Chat Subsystem",
+    "version": "1.0"
+  },
+  "paths": {
+    "/v1/token": {
+      "$ref": "paths/token.json"
+    },
+    "/v1/organizations": {
+      "$ref": "paths/organizations.json"
+    },
+    "/v1/organizations/{id}": {
+      "$ref": "paths/organizations_id.json"
+    },
+    "/v1/organizations/{orgId}/conversations": {
+      "$ref": "paths/conversations.json"
+    },
+    "/v1/organizations/{orgId}/conversations/{id}": {
+      "$ref": "paths/conversations_id.json"
+    }
+  },
+  "produces": [
+    "application/xml",
+    "application/json",
+    "application/octet-stream",
+    "text/plain"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0"
+}

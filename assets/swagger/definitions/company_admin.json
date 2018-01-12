@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "description": "Company Data",
+  "properties": {
+    "firstName": {
+      "description": "Admin first name",
+      "type": "string"
+    },
+    "lastName": {
+      "description": "Admin last name",
+      "type": "string"
+    },
+    "email": {
+      "description": "Admin email",
+      "type": "string"
+    },
+    "phone": {
+      "description": "Admin phone",
+      "type": "string"
+    },
+    "username": {
+      "description": "Admin username",
+      "type": "string"
+    },
+   "companyId": {
+      "description": "Admin company id",
+      "type": "string"
+    },
+    "companyName": {
+      "description": "Admin company name",
+      "type": "string"
+    },
+    "password": {
+      "description": "Admin password",
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+    "extends": "tslint:recommended",
+    "rules": {
+        "object-literal-sort-keys": false,
+        "ordered-imports": [false],
+        "max-line-length": [false],
+        "triple-equals": false,
+        "no-console": [false],
+        "prefer-for-of": false,
+        "max-classes-per-file": [false],
+        "object-literal-shorthand": false,
+        "prefer-const": true
+    }
+}

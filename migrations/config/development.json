@@ -1,0 +1,9 @@
+{
+    "mongoAppDb": {
+        "host": "ds151082.mlab.com",
+        "db": "vivacasual",
+        "port": 51082,
+        "username": "vivadbuser",
+        "password": "vivadbuser"
+    }
+}

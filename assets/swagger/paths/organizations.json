@@ -1,0 +1,117 @@
+{
+    "get": {
+        "consumes": [
+            "application/json"
+        ],
+        "description": "Get Organizations",
+        "parameters": [
+        {
+                "description": "Admin access key",
+                "in": "header",
+                "name": "c_admin_key",
+                "required": true,
+                "type": "string"
+        },
+        {
+                "description": "Filter organizations by text",
+                "in": "query",
+                "name": "q",
+                "required": false,
+                "type": "string"
+        },
+        {
+                "description": "Sort organizations by property",
+                "in": "query",
+                "name": "_sort",
+                "required": false,
+                "type": "string"
+        },
+        {
+                "description": "Sort order",
+                "in": "query",
+                "name": "_order",
+                "required": false,
+                "type": "string"
+        },
+        {
+                "description": "Start index",
+                "in": "query",
+                "name": "_start",
+                "required": false,
+                "type": "number"
+        },
+        {
+                "description": "Organizations count",
+                "in": "query",
+                "name": "_limit",
+                "required": false,
+                "type": "number"
+        }],
+        "produces": [
+            "application/json"
+        ],"responses": {
+            "200": {
+                "description": "OK",
+                "schema": {
+                    "$ref": "../definitions/organization.json"
+                }
+            },
+            "401": {
+                "description": "Unauthorized"
+            },
+            "500": {
+                "description": "Internal server error"
+            }
+        },
+        "tags": [
+            "v1"
+        ]
+    },
+    "post": {
+        "consumes": [
+            "application/json"
+        ],
+        "description": "Create new Organization",
+        "parameters": [
+            {
+                "description": "Admin access key",
+                "in": "header",
+                "name": "c_admin_key",
+                "required": true,
+                "type": "string"
+            },
+            {
+                "name": "body",
+                "in": "body",
+                "description": "New Organization data",
+                "required": true,
+                "schema": {
+                    "$ref": "../definitions/organization.json"
+                }
+            }
+        ],
+        "produces": [
+            "application/json"
+        ],
+        "responses": {
+            "201": {
+                "description": "CREATED",
+                "schema": {
+                    "$ref": "../definitions/organization.json"
+                }
+            },
+            "400": {
+                "description": "Bad Request"
+            },
+            "401": {
+                "description": "Unauthorized"
+            },
+            "500": {
+                "description": "Internal server error"
+            }
+        },
+        "tags": [
+            "v1"
+        ]
+    }
+}

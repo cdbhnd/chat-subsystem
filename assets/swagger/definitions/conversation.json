@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "description": "Coversation Data",
+  "properties": {
+    "name": {
+      "description": "Company name",
+      "type": "string"
+    }
+  }
+}
