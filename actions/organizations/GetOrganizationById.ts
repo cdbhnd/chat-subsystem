@@ -1,6 +1,6 @@
 import { Types, kernel } from "../../infrastructure/dependency-injection/";
 import { ActionContext, ActionBase } from "../ActionBase";
-import { OrganizationActionBase } from "../AuthorizationActionBase";
+import { AdminActionBase } from "../AuthorizationActionBase";
 import * as Exceptions from "../../infrastructure/exceptions/";
 import * as Services from "../../services/";
 import * as Repositories from "../../repositories";
@@ -8,10 +8,13 @@ import * as Entities from "../../entities/";
 import { injectable, inject } from "inversify";
 
 @injectable()
-export class GetOrganizationById extends OrganizationActionBase<Entities.IOrganization> {
+export class GetOrganizationById extends AdminActionBase<Entities.IOrganization> {
+
+  private orgRepo: Repositories.IOrganizationRepository;
 
   constructor(@inject(Types.IOrganizationRepository) orgRepo, @inject(Types.IUserRepository) userRepo) {
-    super(userRepo);
+    super();
+    this.orgRepo = orgRepo;
   };
 
   public async execute(context): Promise<Entities.IOrganization> {

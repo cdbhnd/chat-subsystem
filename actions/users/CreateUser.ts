@@ -8,28 +8,31 @@ import * as Entities from "../../entities/";
 import { injectable, inject } from "inversify";
 
 @injectable()
-export class CreateConversation extends OrganizationActionBase<Entities.IConversation> {
+export class CreateUser extends OrganizationActionBase<Entities.IUser> {
 
-  private conversationRepo: Repositories.IConversationRepository;
+  private userRepo: Repositories.IUserRepository;
 
-  constructor(@inject(Types.IConversationRepository) conversationRepo: Repositories.IConversationRepository, @inject(Types.IOrganizationRepository) orgRepo) {
+  constructor(@inject(Types.IUserRepository) userRepo: Repositories.IUserRepository, @inject(Types.IOrganizationRepository) orgRepo) {
     super(orgRepo);
-    this.conversationRepo = conversationRepo;
+    this.userRepo = userRepo;
   }
 
-  public async execute(context): Promise<Entities.IConversation> {
-    const conversation: Entities.IConversation = {
+  public async execute(context): Promise<Entities.IUser> {
+    const user: Entities.IUser = {
       id: null,
-      name: context.params.name,
+      firstName: context.params.firstName,
+      lastName: context.params.lastName,
+      nickname: context.params.nickname,
       organizationId: context.params.organizationId,
-      userIds: [],
     };
-    return await this.conversationRepo.create(conversation);
+    return await this.userRepo.create(user);
   }
 
   protected getConstraints(): any {
     return {
-      name: "string|required",
+      firstName: "string|required",
+      lastName: "string|required",
+      nickname: "string|required",
       organizationId: "string|required",
     };
   }

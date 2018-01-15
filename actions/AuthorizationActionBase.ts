@@ -29,6 +29,14 @@ export abstract class OrganizationActionBase<T> extends ActionBase<T> {
       throw new Exceptions.OperationNotPermited(this.constructor.name);
     }
 
+    if (context.query) {
+      context.query.organizationId = organization.id;
+    }
+
+    if (context.params) {
+      context.params.organizationId = organization.id;
+    }
+
     return context;
   }
 

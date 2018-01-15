@@ -14,7 +14,6 @@ import {EventMediator} from "../eventEngine/EventMediator";
 import { AuthenticateOrganization } from "../../actions/organizations/AuthenticateOrganization";
 import { CreateOrganization } from "../../actions/organizations/CreateOrganization";
 import { GetOrganizations } from "../../actions/organizations/GetOrganizations";
-import { AuthenticateUser } from "../../actions/users/AuthenticateUser";
 import { UpdateOrganization } from "../../actions/organizations/UpdateOrganization";
 import { GetOrganizationById } from "../../actions/organizations/GetOrganizationById";
 import { DeleteOrganization } from "../../actions/organizations/DeleteOrganization";
@@ -43,7 +42,6 @@ container.bind<actions.IAction>(Types.IAction).to(GetConversations).whenTargetNa
 container.bind<actions.IAction>(Types.IAction).to(UpdateConversation).whenTargetNamed("UpdateConversation");
 container.bind<actions.IAction>(Types.IAction).to(GetConversationById).whenTargetNamed("GetConversationById");
 container.bind<actions.IAction>(Types.IAction).to(DeleteConversation).whenTargetNamed("DeleteConversation");
-container.bind<actions.IAction>(Types.IAction).to(AuthenticateUser).whenTargetNamed("AuthenticateUser");
 container.bind<actions.IAction>(Types.IAction).to(CreateOrganization).whenTargetNamed("CreateOrganization");
 container.bind<actions.IAction>(Types.IAction).to(GetOrganizations).whenTargetNamed("GetOrganizations");
 container.bind<actions.IAction>(Types.IAction).to(UpdateOrganization).whenTargetNamed("UpdateOrganization");

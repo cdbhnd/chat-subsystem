@@ -8,7 +8,7 @@ export class MapperRegistry {
       .forMember("password", (opts) => { opts.ignore(); });
 
     automapper
-      .createMap("ITherapist", "TherapistModel")
+      .createMap("IOrganization", "OrganizationModel")
       .forMember("password", (opts) => { opts.ignore(); });
   }
 }

@@ -38,7 +38,7 @@ export class TherpaistController {
     @UseBefore(AdminMiddleware)
     @UseBefore(QueryParserMiddleware)
     @TransformResponse("IOrganization", "OrganizationModel")
-    public async getOrganizations(@Param("userId") userId: any, @Param("query") query: any, action: Actions.IAction) {
+    public async getOrganizations(@Param("userId") userId: string, @Param("query") query: any, action: Actions.IAction) {
         const actionContext = new ActionContext();
         actionContext.params = {
             userId: userId,
@@ -54,7 +54,7 @@ export class TherpaistController {
     @UseAction("CreateOrganization")
     @UseBefore(AdminMiddleware)
     @TransformResponse("IOrganization", "OrganizationModel")
-    public async createOrganization(@Param("userId") userId: any, @Body() userSubmitedParams: any, action: Actions.IAction) {
+    public async createOrganization(@Param("userId") userId: string, @Body() userSubmitedParams: any, action: Actions.IAction) {
         const actionContext = new ActionContext();
         actionContext.params = userSubmitedParams;
         actionContext.params.userId = userId;
@@ -102,7 +102,7 @@ export class TherpaistController {
     @UseBefore(AdminMiddleware)
     @UseAction("DeleteOrganization")
     @TransformResponse("IOrganization", "OrganizationModel")
-    public async deleteOrganization(@Param("userId") userId: any, @Param("id") organizationId: string, action: Actions.IAction) {
+    public async deleteOrganization(@Param("userId") userId: string, @Param("id") organizationId: string, action: Actions.IAction) {
         const actionContext = new ActionContext();
         actionContext.params = {
             userId: userId,

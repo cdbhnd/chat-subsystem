@@ -7,4 +7,5 @@ export interface IUserRepository {
   create(data: IUser): Promise<IUser>;
   update(data: IUser): Promise<IUser>;
   delete(data: IUser): Promise<boolean>;
+  findAndSort(query: any, sortQuery?: any, skipLimit?: any): Promise<IUser[]>;
 }

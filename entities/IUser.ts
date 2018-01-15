@@ -2,6 +2,6 @@ export interface IUser {
   id: string;
   firstName: string;
   lastName: string;
-  username: string;
-  password: string;
+  nickname: string;
+  organizationId: string;
 }
