@@ -4,7 +4,7 @@ import * as jwt from "jwt-simple";
 
 const secret: string = String(config.get("secret"));
 
-export class AuthMiddleware implements ExpressMiddlewareInterface  {
+export class OrgAuthMiddleware implements ExpressMiddlewareInterface  {
 
     public async use(request: any, response: any, next?: (err?: any) => any): Promise<any> {
 
@@ -21,7 +21,7 @@ export class AuthMiddleware implements ExpressMiddlewareInterface  {
                 if (!request.params) {
                     request.params = {};
                 }
-                request.params.userId = [decodedToken.authUserId, request.headers.c_api_key];
+                request.params.orgKey = [decodedToken.authUserId, request.headers.c_api_key];
             } catch (err) {
                 return response.status(401).end();
             }

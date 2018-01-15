@@ -2,7 +2,7 @@ import * as Actions from "../../actions";
 import { ExceptionTypes } from "../../infrastructure/exceptions/";
 import { JsonController, Param, Body, Get, Post, Put, Delete, Req, Res, HttpCode, UseBefore } from "routing-controllers";
 import { ActionContext } from "../../actions";
-import { AuthMiddleware, QueryParserMiddleware, AdminMiddleware } from "../middleware/";
+import { OrgAuthMiddleware, QueryParserMiddleware, AdminMiddleware } from "../middleware/";
 import * as jwt from "jwt-simple";
 import * as config from "config";
 import { HttpError, UseAction } from "../decorators/";
@@ -66,7 +66,7 @@ export class TherpaistController {
     @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
     @HttpError(400, ExceptionTypes.ValidationException)
     @HttpError(404, ExceptionTypes.EntityNotFoundException)
-    @UseBefore(AuthMiddleware)
+    @UseBefore(OrgAuthMiddleware)
     @UseAction("GetOrganizationById")
     @TransformResponse("IOrganization", "OrganizationModel")
     public async getOrganization(@Param("userId") userId: any, @Param("id") organizationId: string, action: Actions.IAction) {
@@ -83,7 +83,7 @@ export class TherpaistController {
     @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
     @HttpError(400, ExceptionTypes.ValidationException)
     @HttpError(404, ExceptionTypes.EntityNotFoundException)
-    @UseBefore(AuthMiddleware)
+    @UseBefore(OrgAuthMiddleware)
     @UseAction("UpdateOrganization")
     @TransformResponse("IOrganization", "OrganizationModel")
     public async updateOrganization(@Body() userSubmitedParams: any, @Param("userId") userId: any, @Param("id") organizationId: string, action: Actions.IAction) {

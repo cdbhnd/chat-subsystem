@@ -8,7 +8,7 @@ import * as Entities from "../../entities/";
 import { injectable, inject } from "inversify";
 
 @injectable()
-export class AddUserToConversation extends OrganizationActionBase<Entities.IConversation> {
+export class RemoveUserFromConversation extends OrganizationActionBase<Entities.IConversation> {
 
   private usersRepo: Repositories.IUserRepository;
   private conversationRepo: Repositories.IConversationRepository;
@@ -34,7 +34,11 @@ export class AddUserToConversation extends OrganizationActionBase<Entities.IConv
         throw new Exceptions.EntityNotFoundException("conversation", context.params.conversationId);
     }
 
-    conversation.userIds.push(user.id);
+    const userIndex: number = conversation.userIds.indexOf(user.id);
+
+    if (userIndex !== -1) {
+      conversation.userIds.splice(userIndex, 1);
+    }
 
     return await this.conversationRepo.update(conversation);
   }

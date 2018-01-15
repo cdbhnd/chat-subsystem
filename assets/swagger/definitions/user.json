@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "description": "User Data",
+  "properties": {
+    "firstName": {
+      "description": "User first name",
+      "type": "string"
+    },
+    "lastName": {
+      "description": "User last name",
+      "type": "string"
+    },
+    "nickname": {
+      "description": "User nickname",
+      "type": "string"
+    }
+  }
+}

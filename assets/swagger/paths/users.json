@@ -1,0 +1,110 @@
+{
+    "get": {
+        "consumes": [
+            "application/json"
+        ],
+        "description": "Get Users",
+        "parameters": [
+        {
+                "description": "Api access token (e.g. API [token])",
+                "in": "header",
+                "name": "Authorization",
+                "required": true,
+                "type": "string"
+        },
+        {
+                "description": "Api public key",
+                "in": "header",
+                "name": "c_api_key",
+                "required": true,
+                "type": "string"
+        },
+        {
+                "description": "Organization Id",
+                "in": "path",
+                "name": "orgId",
+                "required": true,
+                "type": "string"
+        }],
+        "produces": [
+            "application/json"
+        ],"responses": {
+            "200": {
+                "description": "OK",
+                "schema": {
+                    "$ref": "../definitions/user.json"
+                }
+            },
+            "401": {
+                "description": "Unauthorized"
+            },
+            "500": {
+                "description": "Internal server error"
+            }
+        },
+        "tags": [
+            "v1"
+        ]
+    },
+    "post": {
+        "consumes": [
+            "application/json"
+        ],
+        "description": "Create new User",
+        "parameters": [
+            {
+                    "description": "Api access token (e.g. API [token])",
+                    "in": "header",
+                    "name": "Authorization",
+                    "required": true,
+                    "type": "string"
+            },
+            {
+                    "description": "Api public key",
+                    "in": "header",
+                    "name": "c_api_key",
+                    "required": true,
+                    "type": "string"
+            },
+            {
+                    "description": "Organization Id",
+                    "in": "path",
+                    "name": "orgId",
+                    "required": true,
+                    "type": "string"
+            },
+            {
+                    "name": "body",
+                    "in": "body",
+                    "description": "New User data",
+                    "required": true,
+                    "schema": {
+                        "$ref": "../definitions/user.json"
+                    }
+            }
+        ],
+        "produces": [
+            "application/json"
+        ],
+        "responses": {
+            "201": {
+                "description": "CREATED",
+                "schema": {
+                    "$ref": "../definitions/user.json"
+                }
+            },
+            "400": {
+                "description": "Bad Request"
+            },
+            "401": {
+                "description": "Unauthorized"
+            },
+            "500": {
+                "description": "Internal server error"
+            }
+        },
+        "tags": [
+            "v1"
+        ]
+    }
+}

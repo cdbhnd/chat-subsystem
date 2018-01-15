@@ -21,6 +21,15 @@
     },
     "/v1/organizations/{orgId}/conversations/{id}": {
       "$ref": "paths/conversations_id.json"
+    },
+    "/v1/organizations/{orgId}/conversations/{id}/users": {
+      "$ref": "paths/conversation_users.json"
+    },
+    "/v1/organizations/{orgId}/users": {
+      "$ref": "paths/users.json"
+    },
+    "/v1/organizations/{orgId}/users/{id}": {
+      "$ref": "paths/users_id.json"
     }
   },
   "produces": [

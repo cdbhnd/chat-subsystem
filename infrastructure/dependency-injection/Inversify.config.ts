@@ -22,6 +22,11 @@ import { GetConversations } from "../../actions/conversations/GetConversations";
 import { UpdateConversation } from "../../actions/conversations/UpdateConversation";
 import { GetConversationById } from "../../actions/conversations/GetConversationById";
 import { DeleteConversation } from "../../actions/conversations/DeleteConversation";
+import { CreateUser } from "../../actions/users/CreateUser";
+import { GetUsers } from "../../actions/users/GetUsers";
+import { GetUserById } from "../../actions/users/GetUserById";
+import { AddUserToConversation } from "../../actions/users/AddUserToConversation";
+import { RemoveUserFromConversation } from "../../actions/users/RemoveUserFromConversation";
 
 const container = new Container();
 
@@ -48,6 +53,11 @@ container.bind<actions.IAction>(Types.IAction).to(UpdateOrganization).whenTarget
 container.bind<actions.IAction>(Types.IAction).to(GetOrganizationById).whenTargetNamed("GetOrganizationById");
 container.bind<actions.IAction>(Types.IAction).to(DeleteOrganization).whenTargetNamed("DeleteOrganization");
 container.bind<actions.IAction>(Types.IAction).to(AuthenticateOrganization).whenTargetNamed("AuthenticateOrganization");
+container.bind<actions.IAction>(Types.IAction).to(CreateUser).whenTargetNamed("CreateUser");
+container.bind<actions.IAction>(Types.IAction).to(GetUsers).whenTargetNamed("GetUsers");
+container.bind<actions.IAction>(Types.IAction).to(GetUserById).whenTargetNamed("GetUserById");
+container.bind<actions.IAction>(Types.IAction).to(AddUserToConversation).whenTargetNamed("AddUserToConversation");
+container.bind<actions.IAction>(Types.IAction).to(RemoveUserFromConversation).whenTargetNamed("RemoveUserFromConversation");
 
 ////////////////////
 

@@ -17,7 +17,7 @@ export abstract class OrganizationActionBase<T> extends ActionBase<T> {
   }
 
   protected async onActionExecuting(context: ActionContext): Promise<ActionContext> {
-    const complexKey: string[] = context.params.userId;
+    const complexKey: string[] = context.params.orgKey;
 
     if (complexKey.length !== 2) {
       throw new Exceptions.OperationNotPermited(this.constructor.name);
@@ -42,7 +42,7 @@ export abstract class OrganizationActionBase<T> extends ActionBase<T> {
 
   protected getConstraints(): any {
     return {
-      userId: "required",
+      orgKey: "required",
     };
   }
 }
