@@ -8,6 +8,7 @@ const Types = {
     Logger: Symbol("Logger"),
     IScheduledTaskRepository: Symbol("IScheduledTaskRepository"),
     IConversationRepository: Symbol("IConversationRepository"),
+    IMessageRepository: Symbol("IMessageRepository"),
 };
 
 export default Types;
