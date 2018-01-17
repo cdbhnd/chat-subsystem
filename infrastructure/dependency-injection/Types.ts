@@ -9,6 +9,7 @@ const Types = {
     IScheduledTaskRepository: Symbol("IScheduledTaskRepository"),
     IConversationRepository: Symbol("IConversationRepository"),
     IMessageRepository: Symbol("IMessageRepository"),
+    IMessageService: Symbol("IMessageService"),
 };
 
 export default Types;

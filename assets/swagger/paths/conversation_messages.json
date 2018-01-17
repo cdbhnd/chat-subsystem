@@ -3,7 +3,7 @@
         "consumes": [
             "application/json"
         ],
-        "description": "Get Conversation Users",
+        "description": "Get Conversation Messages",
         "parameters": [
         {
                 "description": "Api access token (e.g. API [token])",
@@ -32,14 +32,14 @@
                 "name": "id",
                 "required": true,
                 "type": "string"
-        },],
+        }],
         "produces": [
             "application/json"
         ],"responses": {
             "200": {
                 "description": "OK",
                 "schema": {
-                    "$ref": "../definitions/user.json"
+                    "$ref": "../definitions/message.json"
                 }
             },
             "401": {
@@ -57,7 +57,7 @@
         "consumes": [
             "application/json"
         ],
-        "description": "Add User to Conversation",
+        "description": "Send Message to Conversation",
         "parameters": [
             {
                     "description": "Api access token (e.g. API [token])",
@@ -90,17 +90,10 @@
             {
                     "name": "body",
                     "in": "body",
-                    "description": "New User data",
+                    "description": "New Message data",
                     "required": true,
                     "schema": {
-                        "type": "object",
-                        "description": "User Id",
-                        "properties": {
-                          "userId": {
-                            "description": "User Id",
-                            "type": "string"
-                          }
-                        }
+                        "$ref": "../definitions/message.json"
                     }
             }
         ],
@@ -111,7 +104,7 @@
             "200": {
                 "description": "OK",
                 "schema": {
-                    "$ref": "../definitions/conversation.json"
+                    "$ref": "../definitions/message.json"
                 }
             },
             "400": {

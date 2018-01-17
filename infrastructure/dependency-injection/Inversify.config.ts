@@ -27,6 +27,10 @@ import { GetUsers } from "../../actions/users/GetUsers";
 import { GetUserById } from "../../actions/users/GetUserById";
 import { AddUserToConversation } from "../../actions/users/AddUserToConversation";
 import { RemoveUserFromConversation } from "../../actions/users/RemoveUserFromConversation";
+import { GetConversationMessages } from "../../actions/messages/GetConversationMessages";
+import { CreateMessage } from "../../actions/messages/CreateMessage";
+import { DeleteMessage } from "../../actions/messages/DeleteMessage";
+import { IMessageService, MessageService } from "../../services/EventService";
 
 const container = new Container();
 
@@ -39,8 +43,13 @@ container.bind<string>("entityName").toConstantValue("conversations").whenInject
 container.bind<Repositories.IUserRepository>(Types.IUserRepository).to(DB.User);
 container.bind<string>("entityName").toConstantValue("user").whenInjectedInto(DB.User);
 
+container.bind<Repositories.IMessageRepository>(Types.IMessageRepository).to(DB.Message);
+container.bind<string>("entityName").toConstantValue("message").whenInjectedInto(DB.Message);
+
 container.bind<Repositories.IScheduledTaskRepository>(Types.IScheduledTaskRepository).to(DB.ScheduledTask);
 container.bind<string>("entityName").toConstantValue("scheduledTasks").whenInjectedInto(DB.ScheduledTask);
+
+container.bind<IMessageService>(Types.IMessageService).to(MessageService);
 
 container.bind<actions.IAction>(Types.IAction).to(CreateConversation).whenTargetNamed("CreateConversation");
 container.bind<actions.IAction>(Types.IAction).to(GetConversations).whenTargetNamed("GetConversations");
@@ -58,6 +67,9 @@ container.bind<actions.IAction>(Types.IAction).to(GetUsers).whenTargetNamed("Get
 container.bind<actions.IAction>(Types.IAction).to(GetUserById).whenTargetNamed("GetUserById");
 container.bind<actions.IAction>(Types.IAction).to(AddUserToConversation).whenTargetNamed("AddUserToConversation");
 container.bind<actions.IAction>(Types.IAction).to(RemoveUserFromConversation).whenTargetNamed("RemoveUserFromConversation");
+container.bind<actions.IAction>(Types.IAction).to(GetConversationMessages).whenTargetNamed("GetConversationMessages");
+container.bind<actions.IAction>(Types.IAction).to(CreateMessage).whenTargetNamed("CreateMessage");
+container.bind<actions.IAction>(Types.IAction).to(DeleteMessage).whenTargetNamed("DeleteMessage");
 
 ////////////////////
 

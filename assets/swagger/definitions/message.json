@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "description": "Message Data",
+  "properties": {
+    "content": {
+      "description": "Message content",
+      "type": "string"
+    },
+    "fromId": {
+      "description": "Sender id",
+      "type": "string"
+    }
+  }
+}

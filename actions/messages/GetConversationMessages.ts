@@ -8,42 +8,33 @@ import * as Entities from "../../entities/";
 import { injectable, inject } from "inversify";
 
 @injectable()
-export class AddUserToConversation extends OrganizationActionBase<Entities.IConversation> {
+export class GetConversationMessages extends OrganizationActionBase<Entities.IMessage[]> {
 
-  private usersRepo: Repositories.IUserRepository;
   private conversationRepo: Repositories.IConversationRepository;
+  private messageRepo: Repositories.IMessageRepository;
 
-  constructor(@inject(Types.IUserRepository) userRepo,
+  constructor(@inject(Types.IConversationRepository) conversationRepo,
               @inject(Types.IOrganizationRepository) orgRepo,
-              @inject(Types.IConversationRepository) conversationRepo) {
+              @inject(Types.IMessageRepository) messageRepo) {
     super(orgRepo);
-    this.usersRepo = userRepo;
     this.conversationRepo = conversationRepo;
+    this.messageRepo = messageRepo;
   };
 
-  public async execute(context): Promise<Entities.IConversation> {
-    const user: Entities.IUser = await this.usersRepo.findOne({ id: context.params.userId, organizationId: context.params.organizationId });
-
-    if (!user) {
-        throw new Exceptions.EntityNotFoundException("user", context.params.userId);
-    }
-
+  public async execute(context): Promise<Entities.IMessage[]> {
     const conversation: Entities.IConversation = await this.conversationRepo.findOne({ id: context.params.conversationId, organizationId: context.params.organizationId });
 
     if (!conversation) {
-        throw new Exceptions.EntityNotFoundException("conversation", context.params.conversationId);
+      throw new Exceptions.EntityNotFoundException("conversation", { id: context.params.conversationId, organizationId: context.params.organizationId });
     }
 
-    conversation.userIds.push(user.id);
-
-    return await this.conversationRepo.update(conversation);
+    return await this.messageRepo.find({ conversationId: conversation.id });
   }
 
   protected getConstraints(): any {
     return {
-      userId: "string|required",
       conversationId: "string|required",
-      organizationId: "string|required",
+      organizationId: "boolean|required",
     };
   }
 

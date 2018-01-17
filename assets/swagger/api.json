@@ -30,6 +30,9 @@
     },
     "/v1/organizations/{orgId}/users/{id}": {
       "$ref": "paths/users_id.json"
+    },
+    "/v1/organizations/{orgId}/conversations/{id}/messages": {
+      "$ref": "paths/conversation_messages.json"
     }
   },
   "produces": [

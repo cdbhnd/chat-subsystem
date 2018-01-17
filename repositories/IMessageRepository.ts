@@ -1,6 +1,6 @@
 import { IMessage } from "../entities/";
 
-export interface IMessageßRepository {
+export interface IMessageRepository {
   find(query: any): Promise<IMessage[]>;
   findAndSort(query: any, sortQuery?: any, skipLimit?: any): Promise<IMessage[]>;
   findOne(query: any): Promise<IMessage>;

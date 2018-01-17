@@ -43,11 +43,15 @@ export class RemoveUserFromConversation extends OrganizationActionBase<Entities.
     return await this.conversationRepo.update(conversation);
   }
 
-  protected getSanitizationPattern(): any {
+  protected getConstraints(): any {
     return {
-        userId: "string|required",
-        conversationId: "string|required",
-        organizationId: "string|required",
+      userId: "string|required",
+      conversationId: "string|required",
+      organizationId: "string|required",
     };
+  }
+
+  protected getSanitizationPattern(): any {
+    return { };
   }
 }
