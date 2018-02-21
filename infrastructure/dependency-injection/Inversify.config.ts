@@ -27,6 +27,7 @@ import { GetUsers } from "../../actions/users/GetUsers";
 import { GetUserById } from "../../actions/users/GetUserById";
 import { AddUserToConversation } from "../../actions/users/AddUserToConversation";
 import { RemoveUserFromConversation } from "../../actions/users/RemoveUserFromConversation";
+import { DeleteUser } from "../../actions/users/DeleteUser";
 import { GetConversationMessages } from "../../actions/messages/GetConversationMessages";
 import { CreateMessage } from "../../actions/messages/CreateMessage";
 import { DeleteMessage } from "../../actions/messages/DeleteMessage";
@@ -67,6 +68,7 @@ container.bind<actions.IAction>(Types.IAction).to(GetUsers).whenTargetNamed("Get
 container.bind<actions.IAction>(Types.IAction).to(GetUserById).whenTargetNamed("GetUserById");
 container.bind<actions.IAction>(Types.IAction).to(AddUserToConversation).whenTargetNamed("AddUserToConversation");
 container.bind<actions.IAction>(Types.IAction).to(RemoveUserFromConversation).whenTargetNamed("RemoveUserFromConversation");
+container.bind<actions.IAction>(Types.IAction).to(DeleteUser).whenTargetNamed("DeleteUser");
 container.bind<actions.IAction>(Types.IAction).to(GetConversationMessages).whenTargetNamed("GetConversationMessages");
 container.bind<actions.IAction>(Types.IAction).to(CreateMessage).whenTargetNamed("CreateMessage");
 container.bind<actions.IAction>(Types.IAction).to(DeleteMessage).whenTargetNamed("DeleteMessage");

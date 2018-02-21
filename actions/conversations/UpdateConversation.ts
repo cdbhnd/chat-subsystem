@@ -45,7 +45,6 @@ export class UpdateConversation extends OrganizationActionBase<Entities.IConvers
     return {
       conversationId: "string|required",
       name: "string|required",
-      organizationId: "boolean|required",
     };
   }
 

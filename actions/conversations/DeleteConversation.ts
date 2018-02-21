@@ -32,7 +32,6 @@ export class DeleteConversation extends OrganizationActionBase<boolean> {
   protected getConstraints(): any {
     return {
       conversationId: "string|required",
-      organizationId: "boolean|required",
     };
   }
 

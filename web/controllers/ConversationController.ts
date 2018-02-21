@@ -76,35 +76,34 @@ export class ConversationController {
         return await action.run(actionContext);
     }
 
-    @Post("/v1/organizations/:orgId/conversations/:id/users")
+    @Post("/v1/conversations/:id/users")
     @HttpCode(200)
     @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
     @HttpError(400, ExceptionTypes.ValidationException)
     @HttpError(404, ExceptionTypes.EntityNotFoundException)
     @UseBefore(OrgAuthMiddleware)
     @UseAction("AddUserToConversation")
-    public async AddUserToConversation(@Body() userSubmitedParams: any, @Param("orgKey") orgKey: any, @Param("orgId") orgId: string, @Param("id") conversationId: string, action: Actions.IAction) {
+    public async AddUserToConversation(@Body() userSubmitedParams: any, @Param("orgKey") orgKey: any, @Param("id") conversationId: string, action: Actions.IAction) {
         const actionContext = new ActionContext();
         actionContext.params = userSubmitedParams;
         actionContext.params.orgKey = orgKey;
         actionContext.params.conversationId = conversationId;
-        actionContext.params.organizationId = orgId;
         return await action.run(actionContext);
     }
 
-    @Delete("/v1/organizations/:orgId/conversations/:id/users")
+    @Delete("/v1/conversations/:id/users/:userId")
     @HttpCode(200)
     @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
     @HttpError(400, ExceptionTypes.ValidationException)
     @HttpError(404, ExceptionTypes.EntityNotFoundException)
     @UseBefore(OrgAuthMiddleware)
     @UseAction("RemoveUserFromConversation")
-    public async RemoveUserFromConversation(@Body() userSubmitedParams: any, @Param("orgKey") orgKey: any, @Param("orgId") orgId: string, @Param("id") conversationId: string, action: Actions.IAction) {
+    public async RemoveUserFromConversation(@Param("userId") userId: string, @Param("orgKey") orgKey: any, @Param("id") conversationId: string, action: Actions.IAction) {
         const actionContext = new ActionContext();
-        actionContext.params = userSubmitedParams;
+        actionContext.params = {};
+        actionContext.params.userId = userId;
         actionContext.params.orgKey = orgKey;
         actionContext.params.conversationId = conversationId;
-        actionContext.params.organizationId = orgId;
         return await action.run(actionContext);
     }
 
@@ -114,8 +113,8 @@ export class ConversationController {
     @HttpError(400, ExceptionTypes.ValidationException)
     @HttpError(404, ExceptionTypes.EntityNotFoundException)
     @UseBefore(OrgAuthMiddleware)
-    @UseAction("DeleteCompany")
-    public async deleteTherapist(@Param("orgKey") orgKey: any, @Param("orgId") orgId: string, @Param("id") conversationId: string, action: Actions.IAction) {
+    @UseAction("DeleteConversation")
+    public async deleteConversation(@Param("orgKey") orgKey: any, @Param("orgId") orgId: string, @Param("id") conversationId: string, action: Actions.IAction) {
         const actionContext = new ActionContext();
         actionContext.params = {
             orgKey: orgKey,

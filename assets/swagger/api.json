@@ -1,6 +1,6 @@
 {
   "basePath": "/",
-  "host": "localhost:8080",
+  "host": "chat-subsystem.herokuapp.com",
   "info": {
     "description": "Chat Subsystem API specification",
     "title": "Chat Subsystem",
@@ -31,7 +31,7 @@
     "/v1/organizations/{orgId}/users/{id}": {
       "$ref": "paths/users_id.json"
     },
-    "/v1/organizations/{orgId}/conversations/{id}/messages": {
+    "/v1/conversations/{id}/messages": {
       "$ref": "paths/conversation_messages.json"
     }
   },

@@ -47,7 +47,6 @@ export class RemoveUserFromConversation extends OrganizationActionBase<Entities.
     return {
       userId: "string|required",
       conversationId: "string|required",
-      organizationId: "string|required",
     };
   }
 

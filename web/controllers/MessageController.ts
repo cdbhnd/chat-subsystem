@@ -31,6 +31,7 @@ export class MessageController {
     @HttpCode(200)
     @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
     @HttpError(400, ExceptionTypes.ValidationException)
+    @HttpError(404, ExceptionTypes.EntityNotFoundException)
     @UseBefore(OrgAuthMiddleware)
     @UseAction("CreateMessage")
     public async createMessage(@Param("orgKey") orgKey: any, @Param("conversationId") conversationId: string, @Body() userSubmitedParams: any, action: Actions.IAction) {

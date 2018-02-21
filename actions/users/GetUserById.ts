@@ -27,9 +27,13 @@ export class GetUserById extends OrganizationActionBase<Entities.IUser> {
     return user;
   }
 
-  protected getSanitizationPattern(): any {
+  protected getConstraints(): any {
     return {
-        userId: "string|required",
+      userId: "string|required",
     };
+  }
+
+  protected getSanitizationPattern(): any {
+    return {};
   }
 }

@@ -30,7 +30,6 @@ export class GetConversationById extends OrganizationActionBase<Entities.IConver
   protected getConstraints(): any {
     return {
       conversationId: "string|required",
-      organizationId: "boolean|required",
     };
   }
 

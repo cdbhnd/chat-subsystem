@@ -24,5 +24,4 @@ export class WebSockets {
     public boradcastToRoom(room: string, event: string, message: any): void {
         this.webSockets.in(room).emit(event, message);
     }
-
 }

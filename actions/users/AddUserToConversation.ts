@@ -43,7 +43,6 @@ export class AddUserToConversation extends OrganizationActionBase<Entities.IConv
     return {
       userId: "string|required",
       conversationId: "string|required",
-      organizationId: "string|required",
     };
   }
 

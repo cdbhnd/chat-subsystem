@@ -34,7 +34,6 @@ export class GetConversationMessages extends OrganizationActionBase<Entities.IMe
   protected getConstraints(): any {
     return {
       conversationId: "string|required",
-      organizationId: "boolean|required",
     };
   }
 
