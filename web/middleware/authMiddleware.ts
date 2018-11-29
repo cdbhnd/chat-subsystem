@@ -8,7 +8,7 @@ export class OrgAuthMiddleware implements ExpressMiddlewareInterface  {
 
     public async use(request: any, response: any, next?: (err?: any) => any): Promise<any> {
 
-        if (!request.headers.authorization || !request.headers.c_api_key) {
+        if (!request.headers.authorization) {
             return response.status(401).end();
         }
 
@@ -21,8 +21,9 @@ export class OrgAuthMiddleware implements ExpressMiddlewareInterface  {
                 if (!request.params) {
                     request.params = {};
                 }
-                request.params.orgKey = [decodedToken.authUserId, request.headers.c_api_key];
+                request.params.orgKey = [decodedToken.authUserId, "aad04cbb-91e1-c5fb-a3d7"];
             } catch (err) {
+                console.log(err);
                 return response.status(401).end();
             }
 
