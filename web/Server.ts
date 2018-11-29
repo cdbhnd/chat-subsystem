@@ -4,8 +4,7 @@ import { MapperRegistry } from "./mappers/Register";
 import * as config from "config";
 import { QueryParserMiddleware } from "./middleware/queryParserMiddleware";
 import { corsMiddleware } from "./middleware/corsMiddleware";
-import { createExpressServer, useExpressServer } from "routing-controllers";
-import {text, ParsedAsText} from "body-parser";
+import { useExpressServer } from "routing-controllers";
 import  bodyParser = require("body-parser");
 import "automapper-ts";
 

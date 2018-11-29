@@ -5,4 +5,5 @@ export interface IMessage {
     fromName: string;
     conversationId: string;
     timestamp: string;
+    readers: string[];
 }

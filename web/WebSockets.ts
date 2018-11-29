@@ -2,6 +2,8 @@ import * as socketsIO from "socket.io";
 
 export class WebSockets {
 
+    public static RoomsJoined = [];
+
     public beforeRoomJoin: (request: any, room: string) => void;
 
     private webSockets;
@@ -22,6 +24,7 @@ export class WebSockets {
     }
 
     public boradcastToRoom(room: string, event: string, message: any): void {
+        // console.log(message.content);
         this.webSockets.in(room).emit(event, message);
     }
 }

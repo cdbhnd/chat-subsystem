@@ -31,6 +31,7 @@ import { DeleteUser } from "../../actions/users/DeleteUser";
 import { GetConversationMessages } from "../../actions/messages/GetConversationMessages";
 import { CreateMessage } from "../../actions/messages/CreateMessage";
 import { DeleteMessage } from "../../actions/messages/DeleteMessage";
+import { UserReadMessage } from "../../actions/messages/UserReadMessage";
 import { IMessageService, MessageService } from "../../services/EventService";
 
 const container = new Container();
@@ -50,7 +51,7 @@ container.bind<string>("entityName").toConstantValue("message").whenInjectedInto
 container.bind<Repositories.IScheduledTaskRepository>(Types.IScheduledTaskRepository).to(DB.ScheduledTask);
 container.bind<string>("entityName").toConstantValue("scheduledTasks").whenInjectedInto(DB.ScheduledTask);
 
-container.bind<IMessageService>(Types.IMessageService).to(MessageService);
+container.bind<IMessageService>(Types.IMessageService).to(MessageService).inSingletonScope();
 
 container.bind<actions.IAction>(Types.IAction).to(CreateConversation).whenTargetNamed("CreateConversation");
 container.bind<actions.IAction>(Types.IAction).to(GetConversations).whenTargetNamed("GetConversations");
@@ -72,6 +73,7 @@ container.bind<actions.IAction>(Types.IAction).to(DeleteUser).whenTargetNamed("D
 container.bind<actions.IAction>(Types.IAction).to(GetConversationMessages).whenTargetNamed("GetConversationMessages");
 container.bind<actions.IAction>(Types.IAction).to(CreateMessage).whenTargetNamed("CreateMessage");
 container.bind<actions.IAction>(Types.IAction).to(DeleteMessage).whenTargetNamed("DeleteMessage");
+container.bind<actions.IAction>(Types.IAction).to(UserReadMessage).whenTargetNamed("UserReadMessage");
 
 ////////////////////
 

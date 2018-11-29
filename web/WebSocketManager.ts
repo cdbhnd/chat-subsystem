@@ -8,11 +8,11 @@ import { IMessageService } from "../services/EventService";
 
 export class WebSocketManager {
 
-    private sockets: WebSockets;
+    public static sockets: WebSockets;
 
     constructor(webSocketServer: WebSockets) {
-        this.sockets = webSocketServer;
-        this.sockets.beforeRoomJoin = this.subscribeToConversation;
+        WebSocketManager.sockets = webSocketServer;
+        WebSocketManager.sockets.beforeRoomJoin = this.subscribeToConversation;
         this.monitorEvents();
     }
 
@@ -22,13 +22,14 @@ export class WebSocketManager {
 
     private passInformationToSockets(msg, data) {
         console.log("Pass info to sockets", msg, data);
-        this.sockets.boradcastMessage(msg, data);
+        WebSocketManager.sockets.boradcastMessage(msg, data);
     }
 
     private subscribeToConversation(request: any, conversation: string) {
         const messageService: IMessageService = kernel.get<IMessageService>(Types.IMessageService);
-        messageService.subscribeUserToConversation(request._query.user, conversation, (event: string, data: any) => {
-            this.sockets.boradcastToRoom(conversation, event, data);
+        // const socketRef = this.sockets;
+        messageService.subscribeUserToConversation(request._query.user, conversation.split("_")[0], (event: string, data: any) => {
+            WebSocketManager.sockets.boradcastToRoom(data.message.conversationId + "_" + data.userId, event, data.message);
         });
     }
 }

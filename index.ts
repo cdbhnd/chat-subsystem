@@ -13,7 +13,7 @@ import { Scheduler } from "./infrastructure/scheduler/";
 // tslint:disable-next-line:no-string-literal
 global["appRoot"] = path.resolve(__dirname);
 
-const port: number = process.env.PORT || 8080;
+const port: number = parseInt(process.env.PORT, 10) || 8080;
 DB.init()
     .then(() => {
         // Initialize WebServer

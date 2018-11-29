@@ -1,6 +1,6 @@
 {
   "basePath": "/",
-  "host": "chat-subsystem.herokuapp.com",
+  "host": "localhost:8080",
   "info": {
     "description": "Chat Subsystem API specification",
     "title": "Chat Subsystem",

@@ -56,4 +56,19 @@ export class MessageController {
         actionContext.params.conversationId = conversationId;
         return await action.run(actionContext);
     }
+
+    @Post("/v1/conversations/:conversationId/messages/:id/readers")
+    @HttpCode(200)
+    @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
+    @HttpError(400, ExceptionTypes.ValidationException)
+    @UseBefore(OrgAuthMiddleware)
+    @UseAction("UserReadMessage")
+    public async addReaderToMessage(@Param("orgKey") orgKey: any, @Param("conversationId") conversationId: string, @Param("id") messageId: string, @Body() userSubmitedParams: any, action: Actions.IAction) {
+        const actionContext = new ActionContext();
+        actionContext.params = userSubmitedParams;
+        actionContext.params.orgKey = orgKey;
+        actionContext.params.messageId = messageId;
+        actionContext.params.conversationId = conversationId;
+        return await action.run(actionContext);
+    }
 }

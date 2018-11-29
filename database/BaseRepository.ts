@@ -16,7 +16,7 @@ export class BaseRepository<T> {
         return this.findAndSort(query, null, null);
     }
 
-    public async count(query: any): Promise<number> {
+    public async count(query: any): Promise<any> {
         return await DB.db.collection(this.entityName).count(query);
     }
 
