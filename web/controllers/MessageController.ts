@@ -2,15 +2,26 @@ import * as Actions from "../../actions";
 import { ExceptionTypes } from "../../infrastructure/exceptions/";
 import { JsonController, Param, Body, Get, Post, Put, Delete, Req, Res, HttpCode, UseBefore } from "routing-controllers";
 import { ActionContext } from "../../actions";
-import { OrgAuthMiddleware, QueryParserMiddleware} from "../middleware/";
-import * as jwt from "jwt-simple";
-import * as config from "config";
+import { OrgAuthMiddleware } from "../middleware/";
 import { HttpError, UseAction } from "../decorators/";
-import { TransformResponse } from "../decorators/transform";
-import { IUser } from "../../entities/";
 
 @JsonController()
 export class MessageController {
+
+    @Get("/v1/conversations/:userId/new-messages")
+    @HttpCode(200)
+    @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
+    @HttpError(400, ExceptionTypes.ValidationException)
+    @UseAction("GetNewMessages")
+    @UseBefore(OrgAuthMiddleware)
+    public async getNewMessages(@Param("orgKey") orgKey: any, @Param("userId") userId: string, action: Actions.IAction) {
+        const actionContext = new ActionContext();
+        actionContext.params = {
+            orgKey: orgKey,
+            userId: userId,
+        };
+        return await action.run(actionContext);
+    }
 
     @Get("/v1/conversations/:conversationId/messages")
     @HttpCode(200)
