@@ -47,6 +47,11 @@ export class UserReadMessage extends OrganizationActionBase<Entities.IMessage> {
 
     message.readers.push(user.id);
 
+    if (!message.seenBy) {
+      message.seenBy = [];
+    }
+    message.seenBy.push(user.id);
+
     message = await this.messageRepo.update(message);
 
     this.eventMediator.boradcastEvent(EventAggregator.READ_MESSAGE, message);

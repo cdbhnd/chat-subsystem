@@ -27,9 +27,19 @@ export class GetNewMessages extends OrganizationActionBase<Entities.IMessage[]> 
 
     const messages: Entities.IMessage[] = await this.messageRepo.find({ conversationId: { $in: conversationIds } });
 
-    return  messages.filter((m: Entities.IMessage) => {
-        return m.fromId !== context.params.userId && m.readers.indexOf(context.params.userId) === -1;
+    const newMessages = messages.filter((m: Entities.IMessage) => {
+        return m.fromId !== context.params.userId &&
+              (!m.readers || m.readers.indexOf(context.params.userId) === -1) &&
+              (!m.seenBy || m.seenBy.indexOf(context.params.userId) === -1);
     });
+    newMessages.forEach(async (nm) => {
+      if (!nm.seenBy) {
+        nm.seenBy = [];
+      }
+      nm.seenBy.push(context.params.userId);
+      await this.messageRepo.update(nm);
+    });
+    return newMessages;
   }
 
   protected getConstraints(): any {
