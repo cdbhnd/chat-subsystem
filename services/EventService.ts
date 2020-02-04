@@ -18,8 +18,9 @@ export class MessageService implements IMessageService {
     private userConversationSubscriptions: any;
     private userNotified: any;
 
-    constructor(@inject(Types.EventMediator) eventMediator: IEventMediator,
-                @inject(Types.IConversationRepository) conversationRepository: IConversationRepository) {
+    constructor(
+        @inject(Types.EventMediator) eventMediator: IEventMediator,
+        @inject(Types.IConversationRepository) conversationRepository: IConversationRepository) {
         this.eventMediator = eventMediator;
         this.conversationRepository = conversationRepository;
         this.userConversationSubscriptions = {};
@@ -38,7 +39,8 @@ export class MessageService implements IMessageService {
             throw new EntityNotFoundException("conversation", conversationId);
         }
 
-        if (conversation.userIds.indexOf(userId) === -1) {
+        const conversationUser = conversation.users.find((x) => x.id === userId);
+        if (!conversationUser) {
             throw new OperationNotPermited("Conversation Subscription");
         }
 
@@ -50,7 +52,8 @@ export class MessageService implements IMessageService {
                 return;
             }
             const conversationFresh: IConversation = await this.conversationRepository.findOne({ id: data.conversationId });
-            if (conversationFresh && conversationFresh.userIds.indexOf(userId) !== -1) {
+            const cu = conversationFresh.users.find((x) => x.id === userId);
+            if (conversationFresh && !!cu) {
                 this.userNotified[userId].push(data.id);
                 callback(event, { userId: userId, message: data });
             }

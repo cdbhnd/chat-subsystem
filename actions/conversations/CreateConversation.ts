@@ -3,6 +3,7 @@ import { OrganizationActionBase } from "../AuthorizationActionBase";
 import * as Repositories from "../../repositories";
 import * as Entities from "../../entities/";
 import { injectable, inject } from "inversify";
+import { ConversationType } from "../../entities/";
 
 @injectable()
 export class CreateConversation extends OrganizationActionBase<Entities.IConversation> {
@@ -20,9 +21,10 @@ export class CreateConversation extends OrganizationActionBase<Entities.IConvers
       image: context.params.image ? context.params.image : null,
       name: context.params.name,
       organizationId: context.params.organizationId,
-      userIds: [],
+      users: [],
       lastMessage: null,
       lastMessageTimestamp: null,
+      type: context.params.type ? context.params.type : ConversationType.PRIVATE,
     };
     return await this.conversationRepo.create(conversation);
   }
@@ -32,6 +34,7 @@ export class CreateConversation extends OrganizationActionBase<Entities.IConvers
       name: "string|required",
       image: "string",
       organizationId: "string|required",
+      type: "string",
     };
   }
 

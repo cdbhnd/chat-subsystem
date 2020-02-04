@@ -13,9 +13,10 @@ export class RemoveUserFromConversation extends OrganizationActionBase<Entities.
   private usersRepo: Repositories.IUserRepository;
   private conversationRepo: Repositories.IConversationRepository;
 
-  constructor(@inject(Types.IUserRepository) userRepo,
-              @inject(Types.IOrganizationRepository) orgRepo,
-              @inject(Types.IConversationRepository) conversationRepo) {
+  constructor(
+    @inject(Types.IUserRepository) userRepo,
+    @inject(Types.IOrganizationRepository) orgRepo,
+    @inject(Types.IConversationRepository) conversationRepo) {
     super(orgRepo);
     this.usersRepo = userRepo;
     this.conversationRepo = conversationRepo;
@@ -25,19 +26,21 @@ export class RemoveUserFromConversation extends OrganizationActionBase<Entities.
     const user: Entities.IUser = await this.usersRepo.findOne({ id: context.params.userId, organizationId: context.params.organizationId });
 
     if (!user) {
-        throw new Exceptions.EntityNotFoundException("user", context.params.userId);
+      throw new Exceptions.EntityNotFoundException("user", context.params.userId);
     }
 
     const conversation: Entities.IConversation = await this.conversationRepo.findOne({ id: context.params.conversationId, organizationId: context.params.organizationId });
 
     if (!conversation) {
-        throw new Exceptions.EntityNotFoundException("conversation", context.params.conversationId);
+      throw new Exceptions.EntityNotFoundException("conversation", context.params.conversationId);
     }
 
-    const userIndex: number = conversation.userIds.indexOf(user.id);
-
-    if (userIndex !== -1) {
-      conversation.userIds.splice(userIndex, 1);
+    const conversationUser = conversation.users.find((x) => x.id === user.id);
+    if (conversationUser) {
+      const userIndex: number = conversation.users.indexOf(conversationUser);
+      if (userIndex !== -1) {
+        conversation.users.splice(userIndex, 1);
+      }
     }
 
     return await this.conversationRepo.update(conversation);
@@ -51,6 +54,6 @@ export class RemoveUserFromConversation extends OrganizationActionBase<Entities.
   }
 
   protected getSanitizationPattern(): any {
-    return { };
+    return {};
   }
 }

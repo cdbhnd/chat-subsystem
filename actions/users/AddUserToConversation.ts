@@ -34,7 +34,11 @@ export class AddUserToConversation extends OrganizationActionBase<Entities.IConv
         throw new Exceptions.EntityNotFoundException("conversation", context.params.conversationId);
     }
 
-    conversation.userIds.push(user.id);
+    conversation.users.push({
+      id: user.id,
+      name: `${user.firstName} ${user.lastName}`,
+      image: user.image,
+    });
 
     return await this.conversationRepo.update(conversation);
   }
