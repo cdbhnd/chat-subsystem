@@ -34,6 +34,7 @@ import { DeleteMessage } from "../../actions/messages/DeleteMessage";
 import { UserReadMessage } from "../../actions/messages/UserReadMessage";
 import { IMessageService, MessageService } from "../../services/EventService";
 import { GetNewMessages } from "../../actions/messages/GetNewMessages";
+import { UpdateUser } from "../../actions/users/UpdateUser";
 
 const container = new Container();
 
@@ -76,6 +77,7 @@ container.bind<actions.IAction>(Types.IAction).to(CreateMessage).whenTargetNamed
 container.bind<actions.IAction>(Types.IAction).to(DeleteMessage).whenTargetNamed("DeleteMessage");
 container.bind<actions.IAction>(Types.IAction).to(UserReadMessage).whenTargetNamed("UserReadMessage");
 container.bind<actions.IAction>(Types.IAction).to(GetNewMessages).whenTargetNamed("GetNewMessages");
+container.bind<actions.IAction>(Types.IAction).to(UpdateUser).whenTargetNamed("UpdateUser");
 
 ////////////////////
 

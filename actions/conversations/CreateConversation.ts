@@ -1,8 +1,5 @@
-import { Types, kernel } from "../../infrastructure/dependency-injection/";
-import { ActionContext, ActionBase } from "../ActionBase";
+import { Types } from "../../infrastructure/dependency-injection/";
 import { OrganizationActionBase } from "../AuthorizationActionBase";
-import * as Exceptions from "../../infrastructure/exceptions/";
-import * as Services from "../../services/";
 import * as Repositories from "../../repositories";
 import * as Entities from "../../entities/";
 import { injectable, inject } from "inversify";
@@ -20,9 +17,12 @@ export class CreateConversation extends OrganizationActionBase<Entities.IConvers
   public async execute(context): Promise<Entities.IConversation> {
     const conversation: Entities.IConversation = {
       id: null,
+      image: context.params.image ? context.params.image : null,
       name: context.params.name,
       organizationId: context.params.organizationId,
       userIds: [],
+      lastMessage: null,
+      lastMessageTimestamp: null,
     };
     return await this.conversationRepo.create(conversation);
   }
@@ -30,6 +30,7 @@ export class CreateConversation extends OrganizationActionBase<Entities.IConvers
   protected getConstraints(): any {
     return {
       name: "string|required",
+      image: "string",
       organizationId: "string|required",
     };
   }

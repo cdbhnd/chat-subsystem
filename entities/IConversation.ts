@@ -3,4 +3,7 @@ export interface IConversation {
   name: string;
   organizationId: string;
   userIds: string[];
+  image: string;
+  lastMessage: string;
+  lastMessageTimestamp: string;
 }

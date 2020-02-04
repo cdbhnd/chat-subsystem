@@ -4,9 +4,9 @@
         "saltRounds": 10
     },
     "mongoDbSettings": {
-        "dbUser": "admin",
-        "dbPassword": "admin",
-        "dbHost": "ds247317.mlab.com:47317/chat-subsystem-dev"
+        "dbUser": "chat",
+        "dbPassword": "chatadmin123",
+        "dbHost": "ds049347.mlab.com:49347/cuculi-chat"
     },
     "asset_folder": "assets",
     "admin_key": "superpajacar"

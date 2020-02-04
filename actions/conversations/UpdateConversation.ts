@@ -1,8 +1,7 @@
-import { Types, kernel } from "../../infrastructure/dependency-injection/";
+import { Types } from "../../infrastructure/dependency-injection/";
 import { ActionContext } from "../ActionBase";
 import { OrganizationActionBase } from "../AuthorizationActionBase";
 import * as Exceptions from "../../infrastructure/exceptions/";
-import * as Services from "../../services/";
 import * as Repositories from "../../repositories";
 import * as Entities from "../../entities/";
 import { injectable, inject } from "inversify";
@@ -12,8 +11,9 @@ export class UpdateConversation extends OrganizationActionBase<Entities.IConvers
 
   private conversationRepo: Repositories.IConversationRepository;
 
-  constructor(@inject(Types.IConversationRepository) conversationRepo: Repositories.IConversationRepository,
-              @inject(Types.IOrganizationRepository) orgRepo: Repositories.IOrganizationRepository) {
+  constructor(
+    @inject(Types.IConversationRepository) conversationRepo: Repositories.IConversationRepository,
+    @inject(Types.IOrganizationRepository) orgRepo: Repositories.IOrganizationRepository) {
     super(orgRepo);
     this.conversationRepo = conversationRepo;
   }
@@ -22,6 +22,7 @@ export class UpdateConversation extends OrganizationActionBase<Entities.IConvers
     const conversation: Entities.IConversation = context.params.company;
 
     conversation.name = context.params.name ? context.params.name : conversation.name;
+    conversation.image = context.params.image ? context.params.image : conversation.image;
 
     return await this.conversationRepo.update(conversation);
   }
@@ -44,7 +45,8 @@ export class UpdateConversation extends OrganizationActionBase<Entities.IConvers
   protected getConstraints(): any {
     return {
       conversationId: "string|required",
-      name: "string|required",
+      name: "string",
+      image: "string",
     };
   }
 

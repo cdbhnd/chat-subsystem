@@ -1,13 +1,9 @@
 import * as Actions from "../../actions";
 import { ExceptionTypes } from "../../infrastructure/exceptions/";
-import { JsonController, Param, Body, Get, Post, Put, Delete, Req, Res, HttpCode, UseBefore } from "routing-controllers";
+import { JsonController, Param, Body, Get, Post, Put, Delete, HttpCode, UseBefore } from "routing-controllers";
 import { ActionContext } from "../../actions";
 import { OrgAuthMiddleware, QueryParserMiddleware } from "../middleware/";
-import * as jwt from "jwt-simple";
-import * as config from "config";
 import { HttpError, UseAction } from "../decorators/";
-import { TransformResponse } from "../decorators/transform";
-import { IUser } from "../../entities/";
 
 @JsonController()
 export class ConversationController {

@@ -29,6 +29,7 @@ export class WebSocketManager {
         const messageService: IMessageService = kernel.get<IMessageService>(Types.IMessageService);
         // const socketRef = this.sockets;
         messageService.subscribeUserToConversation(request._query.user, conversation.split("_")[0], (event: string, data: any) => {
+            console.log("NEW MESSAGE: " + data.message.conversationId + "_" + data.userId + " - " + data.message);
             WebSocketManager.sockets.boradcastToRoom(data.message.conversationId + "_" + data.userId, event, data.message);
         });
     }

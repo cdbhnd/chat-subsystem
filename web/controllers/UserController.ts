@@ -3,11 +3,7 @@ import { ExceptionTypes } from "../../infrastructure/exceptions/";
 import { JsonController, Param, Body, Get, Post, Put, Delete, Req, Res, HttpCode, UseBefore } from "routing-controllers";
 import { ActionContext } from "../../actions";
 import { OrgAuthMiddleware, QueryParserMiddleware} from "../middleware/";
-import * as jwt from "jwt-simple";
-import * as config from "config";
 import { HttpError, UseAction } from "../decorators/";
-import { TransformResponse } from "../decorators/transform";
-import { IUser } from "../../entities/";
 
 @JsonController()
 export class UserController {
@@ -39,6 +35,21 @@ export class UserController {
         actionContext.params = userSubmitedParams;
         actionContext.params.orgKey = orgKey;
         actionContext.params.organizationId = orgId;
+        return await action.run(actionContext);
+    }
+
+    @Put("/v1/organizations/:orgId/users/:userId")
+    @HttpCode(200)
+    @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
+    @HttpError(400, ExceptionTypes.ValidationException)
+    @UseBefore(OrgAuthMiddleware)
+    @UseAction("UpdateUser")
+    public async updateUser(@Param("orgKey") orgKey: any, @Param("orgId") orgId: string, @Param("userId") userId: string, @Body() userSubmitedParams: any, action: Actions.IAction) {
+        const actionContext = new ActionContext();
+        actionContext.params = userSubmitedParams;
+        actionContext.params.orgKey = orgKey;
+        actionContext.params.organizationId = orgId;
+        actionContext.params.id = userId;
         return await action.run(actionContext);
     }
 
