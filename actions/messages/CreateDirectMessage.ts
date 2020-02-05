@@ -43,7 +43,11 @@ export class CreateDirectMessage extends OrganizationActionBase<Entities.IMessag
     }
     const convUser = this.getConversationUser(user);
 
-    let conversation = await this.conversationRepo.findOne({ id: context.params.conversationId, type: ConversationType.DIRECT });
+    let conversation = await this.conversationRepo.findOne({ $and: [
+      { users: { $elemMatch: { id: convSender.id } } },
+      { users: { $elemMatch: { id: convUser.id } } },
+      { type: ConversationType.DIRECT },
+    ] });
     if (!conversation) {
       conversation = await this.conversationRepo.create({
           id: null,
