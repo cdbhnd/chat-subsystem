@@ -4,6 +4,7 @@ export interface IMessage {
     fromId: string;
     fromName: string;
     conversationId: string;
+    conversationName: string;
     timestamp: string;
     readers: string[];
     seenBy?: string[];

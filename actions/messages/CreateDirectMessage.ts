@@ -70,6 +70,7 @@ export class CreateDirectMessage extends OrganizationActionBase<Entities.IMessag
       content: context.params.content,
       fromId: context.params.fromId,
       conversationId: conversation.id,
+      conversationName: conversation.name,
       timestamp: new Date().toISOString(),
       fromName: convSender.name,
     };

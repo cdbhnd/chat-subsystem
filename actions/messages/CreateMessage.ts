@@ -47,6 +47,7 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
       content: context.params.content,
       fromId: context.params.fromId,
       conversationId: context.params.conversationId,
+      conversationName: conversation.name,
       timestamp: new Date().toISOString(),
       fromName: convUser.name,
     };
