@@ -71,7 +71,7 @@ export class CreateDirectMessage extends OrganizationActionBase<Entities.IMessag
       fromId: context.params.fromId,
       conversationId: conversation.id,
       timestamp: new Date().toISOString(),
-      fromName: convSender.id,
+      fromName: convSender.name,
     };
     message = await this.messageRepo.create(message);
 
