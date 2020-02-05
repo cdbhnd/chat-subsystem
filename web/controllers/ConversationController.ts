@@ -25,6 +25,23 @@ export class ConversationController {
         return await action.run(actionContext);
     }
 
+    @Get("/v1/organizations/:orgId/users/:userId/conversations")
+    @HttpCode(200)
+    @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
+    @HttpError(400, ExceptionTypes.ValidationException)
+    @UseAction("GetUserConversations")
+    @UseBefore(OrgAuthMiddleware)
+    @UseBefore(QueryParserMiddleware)
+    public async getUserConversations(@Param("orgKey") orgKey: any, @Param("orgId") orgId: string, @Param("userId") userId: string, action: Actions.IAction) {
+        const actionContext = new ActionContext();
+        actionContext.params = {
+            orgKey: orgKey,
+            userId: userId,
+            orgId: orgId,
+        };
+        return await action.run(actionContext);
+    }
+
     @Post("/v1/organizations/:orgId/conversations")
     @HttpCode(200)
     @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
