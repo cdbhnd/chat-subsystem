@@ -24,7 +24,7 @@ export class GetUserConversations extends OrganizationActionBase<Entities.IConve
   protected getConstraints(): any {
     return {
       orgId: "string|required",
-      userId: "string!required",
+      userId: "string|required",
     };
   }
 
