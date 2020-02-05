@@ -18,4 +18,5 @@ export interface IConversationUser {
 export enum ConversationType {
   PRIVATE = "private",
   PUBLIC = "public",
+  DIRECT = "direct",
 }

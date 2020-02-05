@@ -43,7 +43,7 @@ export class CreateDirectMessage extends OrganizationActionBase<Entities.IMessag
     }
     const convUser = this.getConversationUser(user);
 
-    let conversation = await this.conversationRepo.findOne({ id: context.params.conversationId });
+    let conversation = await this.conversationRepo.findOne({ id: context.params.conversationId, type: ConversationType.DIRECT });
     if (!conversation) {
       conversation = await this.conversationRepo.create({
           id: null,
@@ -52,7 +52,7 @@ export class CreateDirectMessage extends OrganizationActionBase<Entities.IMessag
           lastMessageTimestamp: null,
           name: `${sender.firstName} ${sender.lastName}, ${user.firstName} ${user.lastName}`,
           organizationId: context.params.organizationId,
-          type: ConversationType.PRIVATE,
+          type: ConversationType.DIRECT,
           users: [
               convSender,
               convUser,
