@@ -53,6 +53,21 @@ export class MessageController {
         return await action.run(actionContext);
     }
 
+    @Post("/v1/users/:userId/messages")
+    @HttpCode(200)
+    @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
+    @HttpError(400, ExceptionTypes.ValidationException)
+    @HttpError(404, ExceptionTypes.EntityNotFoundException)
+    @UseBefore(OrgAuthMiddleware)
+    @UseAction("CreateDirectMessage")
+    public async createDirectMessage(@Param("orgKey") orgKey: any, @Param("userId") userId: string, @Body() userSubmitedParams: any, action: Actions.IAction) {
+        const actionContext = new ActionContext();
+        actionContext.params = userSubmitedParams;
+        actionContext.params.orgKey = orgKey;
+        actionContext.params.toId = userId;
+        return await action.run(actionContext);
+    }
+
     @Post("/v1/conversations/:conversationId/messages/:id")
     @HttpCode(200)
     @HttpError(403, ExceptionTypes.UserNotAuthorizedException)

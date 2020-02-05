@@ -7,9 +7,10 @@ import { injectable, inject } from "inversify";
 import { IEventMediator } from "../../infrastructure/eventEngine/IEventMediator";
 import { EventAggregator } from "../../infrastructure/eventEngine/EventAggregator";
 import { IConversationRepository } from "../../repositories";
+import { ConversationType, IUser, IConversationUser } from "../../entities/";
 
 @injectable()
-export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
+export class CreateDirectMessage extends OrganizationActionBase<Entities.IMessage> {
 
   private messageRepo: Repositories.IMessageRepository;
   private userRepo: Repositories.IUserRepository;
@@ -30,15 +31,33 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
   }
 
   public async execute(context): Promise<Entities.IMessage> {
-    const user: Entities.IUser = await this.userRepo.findOne({ id: context.params.fromId, organizationId: context.params.organizationId });
-    if (!user) {
+    const sender: Entities.IUser = await this.userRepo.findOne({ id: context.params.fromId, organizationId: context.params.organizationId });
+    if (!sender) {
       throw new Exceptions.EntityNotFoundException("user", context.params.fromId);
+    }
+    const convSender = this.getConversationUser(sender);
+
+    const user: Entities.IUser = await this.userRepo.findOne({ id: context.params.toId, organizationId: context.params.organizationId });
+    if (!user) {
+      throw new Exceptions.EntityNotFoundException("user", context.params.toId);
     }
     const convUser = this.getConversationUser(user);
 
-    const conversation = await this.conversationRepo.findOne({ id: context.params.conversationId });
+    let conversation = await this.conversationRepo.findOne({ id: context.params.conversationId });
     if (!conversation) {
-      throw new Exceptions.EntityNotFoundException("conversation", context.params.conversationId);
+      conversation = await this.conversationRepo.create({
+          id: null,
+          image: null,
+          lastMessage: null,
+          lastMessageTimestamp: null,
+          name: `${sender.firstName} ${sender.lastName}, ${user.firstName} ${user.lastName}`,
+          organizationId: context.params.organizationId,
+          type: ConversationType.PRIVATE,
+          users: [
+              convSender,
+              convUser,
+          ],
+      });
     }
 
     let message: Entities.IMessage = {
@@ -46,9 +65,9 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
       readers: [context.params.fromId],
       content: context.params.content,
       fromId: context.params.fromId,
-      conversationId: context.params.conversationId,
+      conversationId: conversation.id,
       timestamp: new Date().toISOString(),
-      fromName: convUser.name,
+      fromName: convSender.id,
     };
     message = await this.messageRepo.create(message);
 
@@ -66,7 +85,7 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
     return {
       content: "string|required",
       fromId: "string|required",
-      conversationId: "string|required",
+      toId: "string|required",
     };
   }
 
@@ -74,11 +93,11 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
     return {};
   }
 
-  private getConversationUser(user: Entities.IUser): Entities.IConversationUser {
-    return {
-        id: user.id,
-        image: user.image,
-        name: `${user.firstName} ${user.lastName}`,
-    };
-}
+  private getConversationUser(user: IUser): IConversationUser {
+      return {
+          id: user.id,
+          image: user.image,
+          name: `${user.firstName} ${user.lastName}`,
+      };
+  }
 }
