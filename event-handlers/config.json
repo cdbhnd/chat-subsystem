@@ -1,3 +1,6 @@
 {
-  "events_handlers": []
+  "events_handlers": [{
+    "event": "NEW_MESSAGE",
+    "action": "InvokeMessageHooks"
+  }]
 }

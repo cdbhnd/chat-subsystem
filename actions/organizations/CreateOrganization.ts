@@ -28,6 +28,7 @@ export class CreateOrganization extends AdminActionBase<Entities.IOrganization> 
       firstName: context.params.firstName,
       lastName: context.params.lastName,
       apiKey: this.guid(),
+      hooks: [],
     };
     return await this.orgRepo.create(organization);
   }

@@ -10,6 +10,7 @@ const Types = {
     IConversationRepository: Symbol("IConversationRepository"),
     IMessageRepository: Symbol("IMessageRepository"),
     IMessageService: Symbol("IMessageService"),
+    IWebHookProvider: Symbol("IWebHookProvider"),
 };
 
 export default Types;

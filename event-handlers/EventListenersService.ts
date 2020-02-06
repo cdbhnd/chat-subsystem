@@ -4,7 +4,8 @@ import { EventListener } from "../infrastructure/eventEngine/EventListener";
 import * as fs from "fs";
 import * as path from "path";
 import * as Actions from "../actions";
-import {ActionContext} from "../actions";
+import {ActionContext, IAction} from "../actions";
+import { kernel, Types } from "../infrastructure/dependency-injection";
 
 export class EventListenersService {
     public eventsActionsConfig;
@@ -27,7 +28,7 @@ export class EventListenersService {
         });
 
         for (const el of actionsToExecute) {
-            const actionToExecute = new Actions[el.action].Action();
+            const actionToExecute: IAction = kernel.getNamed<IAction>(Types.IAction, el.action);
             const actionContext = new ActionContext();
             actionContext.params = data;
             actionToExecute.run(actionContext);

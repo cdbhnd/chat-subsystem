@@ -37,6 +37,9 @@ import { GetNewMessages } from "../../actions/messages/GetNewMessages";
 import { UpdateUser } from "../../actions/users/UpdateUser";
 import { CreateDirectMessage } from "../../actions/messages/CreateDirectMessage";
 import { GetUserConversations } from "../../actions/conversations/GetUserConversations";
+import { IWebHookProvider } from "../../providers/IWebHookProvider";
+import { WebHookProvider } from "../../providers/WebHookProvider";
+import { InvokeMessageHooks } from "../../actions/messages/InvokeMessageHooks";
 
 const container = new Container();
 
@@ -56,6 +59,7 @@ container.bind<Repositories.IScheduledTaskRepository>(Types.IScheduledTaskReposi
 container.bind<string>("entityName").toConstantValue("scheduledTasks").whenInjectedInto(DB.ScheduledTask);
 
 container.bind<IMessageService>(Types.IMessageService).to(MessageService).inSingletonScope();
+container.bind<IWebHookProvider>(Types.IWebHookProvider).to(WebHookProvider);
 
 container.bind<actions.IAction>(Types.IAction).to(CreateConversation).whenTargetNamed("CreateConversation");
 container.bind<actions.IAction>(Types.IAction).to(GetConversations).whenTargetNamed("GetConversations");
@@ -82,6 +86,7 @@ container.bind<actions.IAction>(Types.IAction).to(GetNewMessages).whenTargetName
 container.bind<actions.IAction>(Types.IAction).to(UpdateUser).whenTargetNamed("UpdateUser");
 container.bind<actions.IAction>(Types.IAction).to(CreateDirectMessage).whenTargetNamed("CreateDirectMessage");
 container.bind<actions.IAction>(Types.IAction).to(GetUserConversations).whenTargetNamed("GetUserConversations");
+container.bind<actions.IAction>(Types.IAction).to(InvokeMessageHooks).whenTargetNamed("InvokeMessageHooks");
 
 ////////////////////
 

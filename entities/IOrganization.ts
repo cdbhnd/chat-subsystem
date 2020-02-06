@@ -7,4 +7,8 @@ export interface IOrganization {
   username: string;
   password: string;
   apiKey: string;
+  hooks: Array<{
+    event: string,
+    url: string,
+  }>;
 }
