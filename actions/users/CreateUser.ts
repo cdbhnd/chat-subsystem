@@ -19,7 +19,7 @@ export class CreateUser extends OrganizationActionBase<Entities.IUser> {
       id: null,
       image: context.params.image ? context.params.image : null,
       firstName: context.params.firstName,
-      lastName: context.params.lastName,
+      lastName: context.params.lastName ? context.params.lastName : "",
       nickname: context.params.nickname,
       organizationId: context.params.organizationId,
     };
@@ -30,7 +30,7 @@ export class CreateUser extends OrganizationActionBase<Entities.IUser> {
     return {
       firstName: "string|required",
       image: "string",
-      lastName: "string|required",
+      lastName: "string",
       nickname: "string|required",
       organizationId: "string|required",
     };
