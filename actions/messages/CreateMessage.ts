@@ -7,6 +7,8 @@ import { injectable, inject } from "inversify";
 import { IEventMediator } from "../../infrastructure/eventEngine/IEventMediator";
 import { EventAggregator } from "../../infrastructure/eventEngine/EventAggregator";
 import { IConversationRepository } from "../../repositories";
+import { ConversationType } from "../../entities/";
+import { UseOperationNotAllowed } from "../../infrastructure/exceptions/";
 
 @injectable()
 export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
@@ -39,6 +41,16 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
     const conversation = await this.conversationRepo.findOne({ id: context.params.conversationId });
     if (!conversation) {
       throw new Exceptions.EntityNotFoundException("conversation", context.params.conversationId);
+    }
+
+    const existingUser = conversation.users.find((x) => x.id === user.id);
+
+    if (!existingUser) {
+       if (conversation.type !== ConversationType.PUBLIC) {
+         throw new UseOperationNotAllowed("Only participants in non-public conversations are allowed to send messages");
+       }
+
+       conversation.users.push(convUser);
     }
 
     let message: Entities.IMessage = {
