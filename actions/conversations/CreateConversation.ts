@@ -16,6 +16,7 @@ export class CreateConversation extends OrganizationActionBase<Entities.IConvers
   }
 
   public async execute(context): Promise<Entities.IConversation> {
+    console.log("Conversation payload", context.params);
     const conversation: Entities.IConversation = {
       id: null,
       image: context.params.image ? context.params.image : null,
