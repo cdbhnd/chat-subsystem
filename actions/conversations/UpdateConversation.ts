@@ -23,7 +23,13 @@ export class UpdateConversation extends OrganizationActionBase<Entities.IConvers
 
     conversation.name = context.params.name ? context.params.name : conversation.name;
     conversation.image = context.params.image ? context.params.image : conversation.image;
-
+    await this.conversationRepo.updateMultiple(
+      {id: conversation.id},
+      {$set: {
+        name: conversation.name,
+        image: conversation.image,
+      }},
+    );
     return await this.conversationRepo.update(conversation);
   }
 

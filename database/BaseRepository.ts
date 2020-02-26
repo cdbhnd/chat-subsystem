@@ -84,6 +84,11 @@ export class BaseRepository<T> {
         return null;
     }
 
+    public async updateMultiple(query: any, updateObject: any): Promise<T> {
+        const result = await this.collection().update(query, updateObject, {multi: true});
+        return result as any;
+    }
+
     public async update(entity: T): Promise<T> {
         const objt = entity as any;
 
