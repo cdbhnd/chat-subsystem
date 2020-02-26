@@ -38,7 +38,7 @@ export class UpdateUser extends OrganizationActionBase<Entities.IUser> {
         "users.$.image": user.image,
       }},
     );
-    return await this.userRepo.create(user);
+    return await this.userRepo.update(user);
   }
 
   protected getConstraints(): any {
