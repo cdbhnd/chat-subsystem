@@ -1,8 +1,6 @@
-import { Types, kernel } from "../../infrastructure/dependency-injection/";
-import { ActionContext, ActionBase } from "../ActionBase";
+import { Types } from "../../infrastructure/dependency-injection/";
 import { OrganizationActionBase } from "../AuthorizationActionBase";
 import * as Exceptions from "../../infrastructure/exceptions/";
-import * as Services from "../../services/";
 import * as Repositories from "../../repositories";
 import * as Entities from "../../entities/";
 import { injectable, inject } from "inversify";
@@ -11,10 +9,15 @@ import { injectable, inject } from "inversify";
 export class DeleteUser extends OrganizationActionBase<Entities.IUser> {
 
   private usersRepo: Repositories.IUserRepository;
+  private conversationRepo: Repositories.IConversationRepository;
 
-  constructor(@inject(Types.IUserRepository) userRepo, @inject(Types.IOrganizationRepository) orgRepo) {
+  constructor(
+    @inject(Types.IUserRepository) userRepo,
+    @inject(Types.IOrganizationRepository) orgRepo,
+    @inject(Types.IConversationRepository) conversationRepo) {
     super(orgRepo);
     this.usersRepo = userRepo;
+    this.conversationRepo = conversationRepo;
   };
 
   public async execute(context): Promise<Entities.IUser> {
@@ -23,6 +26,8 @@ export class DeleteUser extends OrganizationActionBase<Entities.IUser> {
     if (!user) {
         throw new Exceptions.EntityNotFoundException("user", context.params.userId);
     }
+
+    await this.conversationRepo.collection().update({ "users.id": user.id }, { $pull: { users: { id: user.id } } }, { multi: true });
 
     await this.usersRepo.delete(user);
 

@@ -1,5 +1,5 @@
 import { IConversation } from "../entities/";
-import { WriteOpResult } from "mongodb";
+import * as mongodb from "mongodb";
 
 export interface IConversationRepository {
   find(query: any): Promise<IConversation[]>;
@@ -10,4 +10,5 @@ export interface IConversationRepository {
   update(data: IConversation): Promise<IConversation>;
   delete(data: IConversation): Promise<boolean>;
   updateMultiple(updateObject: any, query: any): Promise<any>;
+  collection(): mongodb.Collection;
 }

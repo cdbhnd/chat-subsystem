@@ -129,12 +129,12 @@ export class BaseRepository<T> {
             });
     }
 
-    protected getTextSearchFields(): string[] {
-        return [];
+    public collection(): mongodb.Collection {
+        return this.db.collection(this.entityName);
     }
 
-    protected collection(): mongodb.Collection {
-        return this.db.collection(this.entityName);
+    protected getTextSearchFields(): string[] {
+        return [];
     }
 
     protected normalizeSearchQuery(query: any): any {
