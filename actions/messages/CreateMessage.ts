@@ -62,6 +62,7 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
       conversationName: conversation.name,
       timestamp: new Date().toISOString(),
       fromName: convUser.name,
+      type: context.params.type || "text",
     };
     message = await this.messageRepo.create(message);
 
@@ -78,6 +79,7 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
   protected getConstraints(): any {
     return {
       content: "string|required",
+      type: "string",
       fromId: "string|required",
       conversationId: "string|required",
     };
