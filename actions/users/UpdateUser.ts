@@ -38,28 +38,30 @@ export class UpdateUser extends OrganizationActionBase<Entities.IUser> {
     user.nickname = context.params.nickname ? context.params.nickname : user.nickname;
     const newName = `${user.firstName} ${user.lastName}`;
 
-    // find all direct conversations of this user and update their names with users new name
-    const conversations = await this.conversationRepo.find({
-      organizationId: context.params.organizationId,
-      users: { $elemMatch: { id: context.params.id } },
-      type: ConversationType.DIRECT,
-    });
-    conversations.forEach((conversation) => {
-      if (conversation.name.includes(perviousName)) {
-        if (conversation.users[0].id === context.params.id) {
-          conversation.name = `${newName}, ${conversation.users[1].name}`;
+    if (newName !== perviousName) {
+      // find all direct conversations of this user and update their names with users new name
+      const conversations = await this.conversationRepo.find({
+        organizationId: context.params.organizationId,
+        users: { $elemMatch: { id: context.params.id } },
+        type: ConversationType.DIRECT,
+      });
+      conversations.forEach((conversation) => {
+        if (conversation.name.includes(perviousName)) {
+          if (conversation.users[0].id === context.params.id) {
+            conversation.name = `${newName}, ${conversation.users[1].name}`;
+          }
+          if (conversation.users[1].id === context.params.id) {
+            conversation.name = `${conversation.users[0].name}, ${newName}`;
+          }
         }
-        if (conversation.users[1].id === context.params.id) {
-          conversation.name = `${conversation.users[0].name}, ${newName}`;
-        }
-      }
-    });
-    await this.conversationRepo.updateMany(conversations);
+      });
+      await this.conversationRepo.updateMany(conversations);
 
-    // get all messages this user sent and update fromName to users new name
-    const messages = await this.messageRepo.find({ fromId: user.id });
-    messages.forEach((message) => message.fromName = `${newName}`);
-    await this.messageRepo.updateMany(messages);
+      // get all messages this user sent and update fromName to users new name
+      const messages = await this.messageRepo.find({ fromId: user.id });
+      messages.forEach((message) => message.fromName = `${newName}`);
+      await this.messageRepo.updateMany(messages);
+    }
 
     // update all conversations where this user is participant with new image and new name
     await this.conversationRepo.updateMultiple(
