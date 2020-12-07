@@ -108,6 +108,14 @@ export class BaseRepository<T> {
         return updatedDoc;
     }
 
+    public async updateMany(entities: T[]): Promise<T[]> {
+        const result: T[] = [];
+        for (let i = 0; i < entities.length; i++) {
+            result.push((await this.update(entities[i])));
+        }
+        return result;
+    }
+
     public async delete(entity: T): Promise<boolean> {
 
         const objt = entity as any;
