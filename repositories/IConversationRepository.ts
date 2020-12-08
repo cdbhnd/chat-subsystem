@@ -10,5 +10,6 @@ export interface IConversationRepository {
   update(data: IConversation): Promise<IConversation>;
   delete(data: IConversation): Promise<boolean>;
   updateMultiple(updateObject: any, query: any): Promise<any>;
+  updateMany(data: IConversation[]): Promise<IConversation[]>;
   collection(): mongodb.Collection;
 }

@@ -7,5 +7,6 @@ export interface IMessageRepository {
   findAll(): Promise<IMessage[]>;
   create(data: IMessage): Promise<IMessage>;
   update(data: IMessage): Promise<IMessage>;
+  updateMany(data: IMessage[]): Promise<IMessage[]>;
   delete(data: IMessage): Promise<boolean>;
 }

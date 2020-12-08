@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "automapper-ts": "^1.8.2",
-    "axios": "^0.15.3",
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "config": "^1.24.0",
@@ -17,13 +17,14 @@
     "indicative": "^2.2.1",
     "inversify": "^4.9.0",
     "jszip": "^2.6.1",
-    "jwt-simple": "^0.5.1",
-    "mailparser": "^2.1.0",
+    "jwt-simple": "^0.5.6",
+    "mailparser": "^2.7.7",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.10",
     "mongodb": "^2.2.15",
     "mongodb-migrate": "^2.0.2",
     "multer": "^1.2.0",
+    "natives": "^1.1.6",
     "node-schedule": "^1.2.5",
     "nodemailer": "^4.4.0",
     "pubsub-js": "^1.5.7",
@@ -56,9 +57,10 @@
     "@types/request-promise": "^4.1.42",
     "@types/serve-static": "^1.13.2",
     "@types/socket.io": "^2.1.0",
+    "@types/bluebird": "3.5.21",
     "figlet": "^1.2.0",
     "gulp": "^3.9.1",
-    "gulp-clean": "^0.3.2",
+    "gulp-clean": "^0.4.0",
     "gulp-sequence": "^0.4.6",
     "gulp-tslint": "^7.1.0",
     "tslint": "^4.5.1",
@@ -66,7 +68,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp start-app"
+    "start": "gulp && node dist/index.js",
+    "compile-test": "gulp default",
+    "clean-code": "node console/app.js"
   },
   "repository": {
     "type": "git",
