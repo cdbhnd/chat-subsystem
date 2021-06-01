@@ -43,24 +43,34 @@ export class CreateDirectMessage extends OrganizationActionBase<Entities.IMessag
     }
     const convUser = this.getConversationUser(user);
 
-    let conversation = await this.conversationRepo.findOne({ $and: [
-      { users: { $elemMatch: { id: convSender.id } } },
-      { users: { $elemMatch: { id: convUser.id } } },
-      { type: ConversationType.DIRECT },
-    ] });
+    let conversation = await this.conversationRepo.findOne({
+      $and: [
+        { users: { $elemMatch: { id: convSender.id } } },
+        { users: { $elemMatch: { id: convUser.id } } },
+        { type: ConversationType.DIRECT },
+      ],
+    });
+    if (context.params.replyTo) {
+      if (!conversation) {
+        throw new Exceptions.UseOperationNotAllowed("You can't reply to a message in the conversation that doesn't exist");
+      }
+      if (context.params.replyTo.conversationId !== conversation.id) {
+        throw new Exceptions.UseOperationNotAllowed("You can't reply to a message from different conversation");
+      }
+    }
     if (!conversation) {
       conversation = await this.conversationRepo.create({
-          id: null,
-          image: null,
-          lastMessage: null,
-          lastMessageTimestamp: null,
-          name: `${sender.firstName} ${sender.lastName}, ${user.firstName} ${user.lastName}`,
-          organizationId: context.params.organizationId,
-          type: ConversationType.DIRECT,
-          users: [
-              convSender,
-              convUser,
-          ],
+        id: null,
+        image: null,
+        lastMessage: null,
+        lastMessageTimestamp: null,
+        name: `${sender.firstName} ${sender.lastName}, ${user.firstName} ${user.lastName}`,
+        organizationId: context.params.organizationId,
+        type: ConversationType.DIRECT,
+        users: [
+          convSender,
+          convUser,
+        ],
       });
     }
 
@@ -74,6 +84,7 @@ export class CreateDirectMessage extends OrganizationActionBase<Entities.IMessag
       timestamp: new Date().toISOString(),
       fromName: convSender.name,
       type: context.params.type || "text",
+      replyTo: context.params.replyTo ? context.params.replyTo : null,
     };
     message = await this.messageRepo.create(message);
 
@@ -92,6 +103,7 @@ export class CreateDirectMessage extends OrganizationActionBase<Entities.IMessag
       content: "string|required",
       fromId: "string|required",
       toId: "string|required",
+      replyTo: "object",
     };
   }
 
@@ -100,10 +112,10 @@ export class CreateDirectMessage extends OrganizationActionBase<Entities.IMessag
   }
 
   private getConversationUser(user: IUser): IConversationUser {
-      return {
-          id: user.id,
-          image: user.image,
-          name: `${user.firstName} ${user.lastName}`,
-      };
+    return {
+      id: user.id,
+      image: user.image,
+      name: `${user.firstName} ${user.lastName}`,
+    };
   }
 }

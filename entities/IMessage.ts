@@ -1,3 +1,5 @@
+import { IConversationUser } from "./IConversation";
+
 export interface IMessage {
     id: string;
     content: string;
@@ -9,4 +11,6 @@ export interface IMessage {
     timestamp: string;
     readers: string[];
     seenBy?: string[];
+    likedBy?: IConversationUser[];
+    replyTo?: IMessage;
 }

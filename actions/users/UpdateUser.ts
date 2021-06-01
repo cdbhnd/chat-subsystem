@@ -18,7 +18,7 @@ export class UpdateUser extends OrganizationActionBase<Entities.IUser> {
     @inject(Types.IOrganizationRepository) orgRepo,
     @inject(Types.IConversationRepository) conversationRepo: Repositories.IConversationRepository,
     @inject(Types.IMessageRepository) messageRepo: Repositories.IMessageRepository,
-    ) {
+  ) {
     super(orgRepo);
     this.userRepo = userRepo;
     this.conversationRepo = conversationRepo;
@@ -63,13 +63,29 @@ export class UpdateUser extends OrganizationActionBase<Entities.IUser> {
       await this.messageRepo.updateMany(messages);
     }
 
+    // update all messages liked by this user
+    const likedMessages = await this.messageRepo.find({ "likedBy.id": user.id });
+    likedMessages.forEach((message) => {
+      message.likedBy.forEach((liked) => {
+        if (liked.id === user.id) {
+          liked.name = `${newName}`;
+          liked.image = user.image;
+        }
+        return liked;
+      });
+      return message;
+    });
+    await this.messageRepo.updateMany(likedMessages);
+
     // update all conversations where this user is participant with new image and new name
     await this.conversationRepo.updateMultiple(
-      {"users.id": user.id},
-      {$set: {
-        "users.$.name": `${newName}`,
-        "users.$.image": user.image,
-      }},
+      { "users.id": user.id },
+      {
+        $set: {
+          "users.$.name": `${newName}`,
+          "users.$.image": user.image,
+        },
+      },
     );
 
     return await this.userRepo.update(user);

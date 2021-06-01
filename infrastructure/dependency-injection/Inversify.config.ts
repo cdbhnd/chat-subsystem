@@ -6,11 +6,11 @@ import * as Providers from "../../providers/";
 import * as Entities from "../../entities/";
 import * as DB from "../../database/index";
 import * as actions from "../../actions";
-import {Logger} from "../logger/Logger";
+import { Logger } from "../logger/Logger";
 import * as Tasks from "../cron/tasks";
-import {ILogger} from "../logger/ILogger";
-import {IEventMediator} from "../eventEngine/IEventMediator";
-import {EventMediator} from "../eventEngine/EventMediator";
+import { ILogger } from "../logger/ILogger";
+import { IEventMediator } from "../eventEngine/IEventMediator";
+import { EventMediator } from "../eventEngine/EventMediator";
 import { AuthenticateOrganization } from "../../actions/organizations/AuthenticateOrganization";
 import { CreateOrganization } from "../../actions/organizations/CreateOrganization";
 import { GetOrganizations } from "../../actions/organizations/GetOrganizations";
@@ -40,6 +40,7 @@ import { GetUserConversations } from "../../actions/conversations/GetUserConvers
 import { IWebHookProvider } from "../../providers/IWebHookProvider";
 import { WebHookProvider } from "../../providers/WebHookProvider";
 import { InvokeMessageHooks } from "../../actions/messages/InvokeMessageHooks";
+import { UserLikesAMessage } from "../../actions/messages/UserLikesAMessage";
 
 const container = new Container();
 
@@ -87,6 +88,7 @@ container.bind<actions.IAction>(Types.IAction).to(UpdateUser).whenTargetNamed("U
 container.bind<actions.IAction>(Types.IAction).to(CreateDirectMessage).whenTargetNamed("CreateDirectMessage");
 container.bind<actions.IAction>(Types.IAction).to(GetUserConversations).whenTargetNamed("GetUserConversations");
 container.bind<actions.IAction>(Types.IAction).to(InvokeMessageHooks).whenTargetNamed("InvokeMessageHooks");
+container.bind<actions.IAction>(Types.IAction).to(UserLikesAMessage).whenTargetNamed("UserLikesAMessage");
 
 ////////////////////
 
