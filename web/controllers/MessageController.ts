@@ -97,4 +97,21 @@ export class MessageController {
         actionContext.params.conversationId = conversationId;
         return await action.run(actionContext);
     }
+
+    @Put("/v1/users/:userId/likes-message/:messageId")
+    @HttpCode(200)
+    @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
+    @HttpError(400, ExceptionTypes.ValidationException)
+    @UseBefore(OrgAuthMiddleware)
+    @UseAction("UserLikesAMessage")
+    public async userLikesAMessage(@Param("orgKey") orgKey: any, @Param("userId") userId: string, @Param("messageId") messageId: string, action: Actions.IAction) {
+        const actionContext = new ActionContext();
+        actionContext.params = {
+            messageId: messageId,
+            userId: userId,
+            orgKey: orgKey,
+        };
+        return await action.run(actionContext);
+    }
+
 }

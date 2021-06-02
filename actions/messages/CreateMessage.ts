@@ -46,11 +46,14 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
     const existingUser = conversation.users.find((x) => x.id === user.id);
 
     if (!existingUser) {
-       if (conversation.type !== ConversationType.PUBLIC) {
-         throw new UseOperationNotAllowed("Only participants in non-public conversations are allowed to send messages");
-       }
+      if (conversation.type !== ConversationType.PUBLIC) {
+        throw new UseOperationNotAllowed("Only participants in non-public conversations are allowed to send messages");
+      }
+      conversation.users.push(convUser);
+    }
 
-       conversation.users.push(convUser);
+    if (context.params.replyTo && context.params.replyTo.conversationId !== conversation.id) {
+      throw new UseOperationNotAllowed("You can't reply to a message from different conversation");
     }
 
     let message: Entities.IMessage = {
@@ -63,6 +66,7 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
       timestamp: new Date().toISOString(),
       fromName: convUser.name,
       type: context.params.type || "text",
+      replyTo: context.params.replyTo ? context.params.replyTo : null,
     };
     message = await this.messageRepo.create(message);
 
@@ -82,6 +86,7 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
       type: "string",
       fromId: "string|required",
       conversationId: "string|required",
+      replyTo: "object",
     };
   }
 
@@ -91,9 +96,9 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
 
   private getConversationUser(user: Entities.IUser): Entities.IConversationUser {
     return {
-        id: user.id,
-        image: user.image,
-        name: `${user.firstName} ${user.lastName}`,
+      id: user.id,
+      image: user.image,
+      name: `${user.firstName} ${user.lastName}`,
     };
-}
+  }
 }
