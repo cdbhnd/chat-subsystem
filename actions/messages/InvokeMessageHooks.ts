@@ -6,6 +6,7 @@ import { injectable, inject } from "inversify";
 import { IWebHookProvider } from "../../providers/IWebHookProvider";
 import { IMessage } from "../../entities/";
 import { EntityNotFoundException } from "../../infrastructure/exceptions";
+import { EventAggregator } from "../../infrastructure/eventEngine/EventAggregator";
 
 @injectable()
 export class InvokeMessageHooks extends ActionBase<Entities.IOrganization[]> {
@@ -18,8 +19,8 @@ export class InvokeMessageHooks extends ActionBase<Entities.IOrganization[]> {
   }
 
   public async execute(context: ActionContext): Promise<Entities.IOrganization[]> {
-    const organizations = await this.orgRepo.find({ hooks: { $elemMatch: { event: "NEW_MESSAGE" } } });
-    const message: IMessage = { ...context.params };
+    const organizations = await this.orgRepo.find({ hooks: { $elemMatch: { event: context.params.event } } });
+    const message: IMessage = { ...context.params.message };
 
     const conversation = await this.conversationRepo.findOne({ id: message.conversationId });
     if (!conversation) {
@@ -28,11 +29,17 @@ export class InvokeMessageHooks extends ActionBase<Entities.IOrganization[]> {
 
     for (let i = 0; i < organizations.length; i++) {
       try {
-        const hook = organizations[i].hooks.find((x) => x.event === "NEW_MESSAGE");
+        const hook = organizations[i].hooks.find((x) => x.event === context.params.event);
         if (hook && hook.url) {
-          const data: any = {...message};
-          data.recipients = conversation.users.filter((x) => x.id !== message.fromId);
-          data.sender = conversation.users.find((x) => x.id === message.fromId);
+          const data: any = { ...message };
+          if (context.params.event === EventAggregator.NEW_MESSAGE) {
+            data.recipients = conversation.users.filter((x) => x.id !== message.fromId);
+            data.sender = conversation.users.find((x) => x.id === message.fromId);
+          }
+          if (context.params.event === EventAggregator.MESSAGE_LIKED) {
+            data.recipients = conversation.users.filter((x) => x.id === message.fromId);
+            data.likedBy = message.likedBy[(message.likedBy.length - 1)];
+          }
           await this.webhookProvider.invoke(hook.url, data);
         }
       } catch (err) {
