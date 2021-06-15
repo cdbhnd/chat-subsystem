@@ -4,6 +4,8 @@ import { OrganizationActionBase } from "../AuthorizationActionBase";
 import * as Entities from "../../entities";
 import * as Repositories from "../../repositories";
 import * as Exceptions from "../../infrastructure/exceptions";
+import { IEventMediator } from "../../infrastructure/eventEngine/IEventMediator";
+import { EventAggregator } from "../../infrastructure/eventEngine/EventAggregator";
 
 @injectable()
 export class UserLikesAMessage extends OrganizationActionBase<Entities.IMessage> {
@@ -11,16 +13,19 @@ export class UserLikesAMessage extends OrganizationActionBase<Entities.IMessage>
   private messageRepo: Repositories.IMessageRepository;
   private userRepo: Repositories.IUserRepository;
   private convRepo: Repositories.IConversationRepository;
+  private eventMediator: IEventMediator;
 
   constructor(
     @inject(Types.IMessageRepository) messagerepo: Repositories.IMessageRepository,
     @inject(Types.IUserRepository) userRepo: Repositories.IUserRepository,
     @inject(Types.IConversationRepository) convRepo: Repositories.IConversationRepository,
-    @inject(Types.IOrganizationRepository) orgRepo) {
+    @inject(Types.IOrganizationRepository) orgRepo: Repositories.IOrganizationRepository,
+    @inject(Types.EventMediator) eventMediator: IEventMediator) {
     super(orgRepo);
     this.messageRepo = messagerepo;
     this.userRepo = userRepo;
     this.convRepo = convRepo;
+    this.eventMediator = eventMediator;
   }
 
   public async execute(context): Promise<Entities.IMessage> {
@@ -53,6 +58,9 @@ export class UserLikesAMessage extends OrganizationActionBase<Entities.IMessage>
     }
     message.likedBy.push(this.getConversationUser(user));
     const newMessage = await this.messageRepo.update(message);
+
+    this.eventMediator.boradcastEvent(EventAggregator.MESSAGE_LIKED, newMessage);
+
     return newMessage;
   }
 

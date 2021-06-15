@@ -1,6 +1,12 @@
 {
-  "events_handlers": [{
-    "event": "NEW_MESSAGE",
-    "action": "InvokeMessageHooks"
-  }]
+  "events_handlers": [
+    {
+      "event": "NEW_MESSAGE",
+      "action": "InvokeMessageHooks"
+    },
+    {
+      "event": "MESSAGE_LIKED",
+      "action": "InvokeMessageHooks"
+    }
+  ]
 }

@@ -48,13 +48,25 @@ export class MessageService implements IMessageService {
             if (!this.userNotified[userId]) {
                 this.userNotified[userId] = [];
             }
-            if (this.userNotified[userId].indexOf(data.id) !== -1) {
+            if (this.userNotified[userId].indexOf({ message: data.id, event }) !== -1) {
                 return;
             }
             const conversationFresh: IConversation = await this.conversationRepository.findOne({ id: data.conversationId });
             const cu = conversationFresh.users.find((x) => x.id === userId);
             if (conversationFresh && !!cu) {
-                this.userNotified[userId].push(data.id);
+                this.userNotified[userId].push({ message: data.id, event });
+                callback(event, { userId: userId, message: data });
+            }
+        });
+
+        this.eventMediator.subscribe(EventAggregator.MESSAGE_LIKED, async (event: any, data: IMessage) => {
+            if (!this.userNotified[userId]) {
+                this.userNotified[userId] = [];
+            }
+            const conversationFresh: IConversation = await this.conversationRepository.findOne({ id: data.conversationId });
+            const cu = conversationFresh.users.find((x) => x.id === userId);
+            if (conversationFresh && !!cu) {
+                this.userNotified[userId].push({ message: data.id, event });
                 callback(event, { userId: userId, message: data });
             }
         });
