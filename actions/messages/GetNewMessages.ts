@@ -20,7 +20,7 @@ export class GetNewMessages extends OrganizationActionBase<Entities.IMessage[]> 
   };
 
   public async execute(context): Promise<Entities.IMessage[]> {
-    const conversations: Entities.IConversation[] = await this.conversationRepo.find({ userIds: context.params.userId });
+    const conversations: Entities.IConversation[] = await this.conversationRepo.find({ "users.Id": context.params.userId });
 
     const conversationIds: string[] = conversations.map((c) => {
       return c.id;
