@@ -10,7 +10,8 @@ export class GetNewMessages extends OrganizationActionBase<Entities.IMessage[]> 
   private conversationRepo: Repositories.IConversationRepository;
   private messageRepo: Repositories.IMessageRepository;
 
-  constructor(@inject(Types.IConversationRepository) conversationRepo,
+  constructor(
+    @inject(Types.IConversationRepository) conversationRepo,
     @inject(Types.IOrganizationRepository) orgRepo,
     @inject(Types.IMessageRepository) messageRepo) {
     super(orgRepo);
