@@ -98,6 +98,20 @@ export class MessageController {
         return await action.run(actionContext);
     }
 
+    @Post("/v1/conversations/:conversationId/messages/readers")
+    @HttpCode(200)
+    @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
+    @HttpError(400, ExceptionTypes.ValidationException)
+    @UseBefore(OrgAuthMiddleware)
+    @UseAction("UserReadConversationMessages")
+    public async addReaderToMessagesInConversation(@Param("orgKey") orgKey: any, @Param("conversationId") conversationId: string, @Body() userSubmitedParams: any, action: Actions.IAction) {
+        const actionContext = new ActionContext();
+        actionContext.params = userSubmitedParams;
+        actionContext.params.orgKey = orgKey;
+        actionContext.params.conversationId = conversationId;
+        return await action.run(actionContext);
+    }
+
     @Put("/v1/users/:userId/likes-message/:messageId")
     @HttpCode(200)
     @HttpError(403, ExceptionTypes.UserNotAuthorizedException)

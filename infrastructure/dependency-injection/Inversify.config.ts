@@ -41,6 +41,7 @@ import { IWebHookProvider } from "../../providers/IWebHookProvider";
 import { WebHookProvider } from "../../providers/WebHookProvider";
 import { InvokeMessageHooks } from "../../actions/messages/InvokeMessageHooks";
 import { UserLikesAMessage } from "../../actions/messages/UserLikesAMessage";
+import { UserReadConversationMessages } from "../../actions/messages/UserReadConversationMessages";
 
 const container = new Container();
 
@@ -83,6 +84,7 @@ container.bind<actions.IAction>(Types.IAction).to(GetConversationMessages).whenT
 container.bind<actions.IAction>(Types.IAction).to(CreateMessage).whenTargetNamed("CreateMessage");
 container.bind<actions.IAction>(Types.IAction).to(DeleteMessage).whenTargetNamed("DeleteMessage");
 container.bind<actions.IAction>(Types.IAction).to(UserReadMessage).whenTargetNamed("UserReadMessage");
+container.bind<actions.IAction>(Types.IAction).to(UserReadConversationMessages).whenTargetNamed("UserReadConversationMessages");
 container.bind<actions.IAction>(Types.IAction).to(GetNewMessages).whenTargetNamed("GetNewMessages");
 container.bind<actions.IAction>(Types.IAction).to(UpdateUser).whenTargetNamed("UpdateUser");
 container.bind<actions.IAction>(Types.IAction).to(CreateDirectMessage).whenTargetNamed("CreateDirectMessage");

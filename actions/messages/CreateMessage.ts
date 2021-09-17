@@ -67,6 +67,7 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
       fromName: convUser.name,
       type: context.params.type || "text",
       replyTo: context.params.replyTo ? context.params.replyTo : null,
+      seenBy: [],
     };
     message = await this.messageRepo.create(message);
 
