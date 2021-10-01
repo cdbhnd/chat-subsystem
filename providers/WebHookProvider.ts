@@ -13,6 +13,8 @@ export class WebHookProvider implements IWebHookProvider {
                 method: "POST",
                 body: payload,
                 json: true,
+                strictSSL: false,
+                insecure: true,
             };
 
             rp(options)
