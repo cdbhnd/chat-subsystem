@@ -85,6 +85,7 @@ export class CreateDirectMessage extends OrganizationActionBase<Entities.IMessag
       fromName: convSender.name,
       type: context.params.type || "text",
       replyTo: context.params.replyTo ? context.params.replyTo : null,
+      seenBy: [],
     };
     message = await this.messageRepo.create(message);
 

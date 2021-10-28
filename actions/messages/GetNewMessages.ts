@@ -10,36 +10,23 @@ export class GetNewMessages extends OrganizationActionBase<Entities.IMessage[]> 
   private conversationRepo: Repositories.IConversationRepository;
   private messageRepo: Repositories.IMessageRepository;
 
-  constructor(@inject(Types.IConversationRepository) conversationRepo,
-              @inject(Types.IOrganizationRepository) orgRepo,
-              @inject(Types.IMessageRepository) messageRepo) {
+  constructor(
+    @inject(Types.IConversationRepository) conversationRepo,
+    @inject(Types.IOrganizationRepository) orgRepo,
+    @inject(Types.IMessageRepository) messageRepo) {
     super(orgRepo);
     this.conversationRepo = conversationRepo;
     this.messageRepo = messageRepo;
   };
 
   public async execute(context): Promise<Entities.IMessage[]> {
-    const conversations: Entities.IConversation[] = await this.conversationRepo.find({ userIds: context.params.userId });
+    const conversations: Entities.IConversation[] = await this.conversationRepo.find({ "users.id": context.params.userId });
 
     const conversationIds: string[] = conversations.map((c) => {
-        return c.id;
+      return c.id;
     });
 
-    const messages: Entities.IMessage[] = await this.messageRepo.find({ conversationId: { $in: conversationIds } });
-
-    const newMessages = messages.filter((m: Entities.IMessage) => {
-        return m.fromId !== context.params.userId &&
-              (!m.readers || m.readers.indexOf(context.params.userId) === -1) &&
-              (!m.seenBy || m.seenBy.indexOf(context.params.userId) === -1);
-    });
-    newMessages.forEach(async (nm) => {
-      if (!nm.seenBy) {
-        nm.seenBy = [];
-      }
-      nm.seenBy.push(context.params.userId);
-      await this.messageRepo.update(nm);
-    });
-    return newMessages;
+    return await this.messageRepo.find({ conversationId: { $in: conversationIds }, fromId: { $ne: context.params.userId }, seenBy: { $exists: true, $ne: context.params.userId } });
   }
 
   protected getConstraints(): any {
