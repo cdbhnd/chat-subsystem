@@ -98,7 +98,7 @@ export class MessageController {
         return await action.run(actionContext);
     }
 
-    @Post("/v1/conversations/:conversationId/messages/readers")
+    @Post("/v1/conversations/:conversationId/readers")
     @HttpCode(200)
     @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
     @HttpError(400, ExceptionTypes.ValidationException)
