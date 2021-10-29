@@ -83,7 +83,9 @@ export class MessageController {
         return await action.run(actionContext);
     }
 
-    @Post("/v1/conversations/:conversationId/messages/:id/readers")
+    // temp route disable until cuculi ios app finishes review
+
+    /* @Post("/v1/conversations/:conversationId/messages/:id/readers")
     @HttpCode(200)
     @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
     @HttpError(400, ExceptionTypes.ValidationException)
@@ -96,9 +98,11 @@ export class MessageController {
         actionContext.params.messageId = messageId;
         actionContext.params.conversationId = conversationId;
         return await action.run(actionContext);
-    }
+    } */
 
-    @Post("/v1/conversations/:conversationId/readers")
+    // will be switched to route "/v1/conversations/:conversationId/readers"
+
+    @Post("/v1/conversations/:conversationId/messages/readers")
     @HttpCode(200)
     @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
     @HttpError(400, ExceptionTypes.ValidationException)
