@@ -35,6 +35,7 @@ export class InvokeMessageHooks extends ActionBase<Entities.IOrganization[]> {
           if (context.params.event === EventAggregator.NEW_MESSAGE) {
             data.recipients = conversation.users.filter((x) => x.id !== message.fromId);
             data.sender = conversation.users.find((x) => x.id === message.fromId);
+            data.conversationType = conversation.type;
           }
           if (context.params.event === EventAggregator.MESSAGE_LIKED) {
             data.recipients = conversation.users.filter((x) => x.id === message.fromId);
