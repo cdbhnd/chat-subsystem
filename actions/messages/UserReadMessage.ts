@@ -23,7 +23,7 @@ export class UserReadMessage extends OrganizationActionBase<Entities.IMessage> {
     @inject(Types.IOrganizationRepository) orgRepo,
     @inject(Types.IUserRepository) userRepo: Repositories.IUserRepository,
     @inject(Types.EventMediator) eventMediator: IEventMediator,
-    ) {
+  ) {
     super(orgRepo);
     this.messageRepo = messageRepo;
     this.userRepo = userRepo;
@@ -35,17 +35,17 @@ export class UserReadMessage extends OrganizationActionBase<Entities.IMessage> {
     const user: Entities.IUser = await this.userRepo.findOne({ id: context.params.userId, organizationId: context.params.organizationId });
 
     if (!user) {
-        throw new Exceptions.EntityNotFoundException("user", context.params.userId);
+      throw new Exceptions.EntityNotFoundException("user", context.params.userId);
     }
 
     let message: Entities.IMessage = await this.messageRepo.findOne({ id: context.params.messageId });
 
     if (!message) {
-        throw new Exceptions.EntityNotFoundException("message", context.params.messageId);
+      throw new Exceptions.EntityNotFoundException("message", context.params.messageId);
     }
 
     if (message.readers.indexOf(user.id) !== -1) {
-        return message;
+      return message;
     }
 
     message.readers.push(user.id);
@@ -53,6 +53,11 @@ export class UserReadMessage extends OrganizationActionBase<Entities.IMessage> {
     if (!message.seenBy) {
       message.seenBy = [];
     }
+
+    if (message.seenBy.indexOf(user.id) !== -1) {
+      return message;
+    }
+
     message.seenBy.push(user.id);
 
     message = await this.messageRepo.update(message);

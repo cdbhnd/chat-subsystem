@@ -46,7 +46,9 @@ export class UserReadConversationMessages extends OrganizationActionBase<Entitie
 
         messages = await this.messageRepo.updateMany(messages);
 
-        this.eventMediator.boradcastEvent(EventAggregator.READ_CONVERSATION_MESSAGES, messages);
+        // currently not in use; broadcasting only last message seen for now
+        /* this.eventMediator.boradcastEvent(EventAggregator.READ_CONVERSATION_MESSAGES, messages); */
+
         this.eventMediator.boradcastEvent(EventAggregator.READ_MESSAGE, messages[messages.length - 1]);
 
         return messages;
