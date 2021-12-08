@@ -27,7 +27,7 @@ export class MessageService implements IMessageService {
         this.userNotified = {};
     }
 
-    public async subscribeUserToConversation(userId: string, conversationId: string, callback: (ecent: string, data: any) => void): Promise<void> {
+    public async subscribeUserToConversation(userId: string, conversationId: string, callback: (event: string, data: any) => void): Promise<void> {
         const conversation: IConversation = await this.conversationRepository.findOne({ id: conversationId });
         if (!this.userConversationSubscriptions[userId]) {
             this.userConversationSubscriptions[userId] = [];
@@ -70,6 +70,22 @@ export class MessageService implements IMessageService {
                 callback(event, { userId: userId, message: data });
             }
         });
+
+        this.eventMediator.subscribe(EventAggregator.READ_MESSAGE, async (event: any, data: IMessage) => {
+            if (!this.userNotified[userId]) {
+                this.userNotified[userId] = [];
+            }
+            if (this.userNotified[userId].indexOf({ message: data.id, event }) !== -1) {
+                return;
+            }
+            const conversationFresh: IConversation = await this.conversationRepository.findOne({ id: data.conversationId });
+            const cu = conversationFresh.users.find((x) => x.id === userId);
+            if (conversationFresh && !!cu) {
+                this.userNotified[userId].push({ message: data.id, event });
+                callback(event, { userId: userId, message: data });
+            }
+        });
+
         this.userConversationSubscriptions[userId].push(conversationId);
     }
 }

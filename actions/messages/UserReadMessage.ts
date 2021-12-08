@@ -18,17 +18,20 @@ export class UserReadMessage extends OrganizationActionBase<Entities.IMessage> {
   private userRepo: Repositories.IUserRepository;
   private eventMediator: IEventMediator;
 
-  constructor(@inject(Types.IMessageRepository) messagerepo: Repositories.IMessageRepository,
-              @inject(Types.IOrganizationRepository) orgRepo,
-              @inject(Types.IUserRepository) userRepo: Repositories.IUserRepository,
-              @inject(Types.EventMediator) eventMediator: IEventMediator) {
+  constructor(
+    @inject(Types.IMessageRepository) messageRepo: Repositories.IMessageRepository,
+    @inject(Types.IOrganizationRepository) orgRepo,
+    @inject(Types.IUserRepository) userRepo: Repositories.IUserRepository,
+    @inject(Types.EventMediator) eventMediator: IEventMediator,
+    ) {
     super(orgRepo);
-    this.messageRepo = messagerepo;
+    this.messageRepo = messageRepo;
     this.userRepo = userRepo;
     this.eventMediator = eventMediator;
   }
 
-  public async execute(context): Promise<Entities.IMessage> {
+  public async execute(context: ActionContext): Promise<Entities.IMessage> {
+
     const user: Entities.IUser = await this.userRepo.findOne({ id: context.params.userId, organizationId: context.params.organizationId });
 
     if (!user) {
