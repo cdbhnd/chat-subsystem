@@ -47,6 +47,7 @@ export class UserReadConversationMessages extends OrganizationActionBase<Entitie
         messages = await this.messageRepo.updateMany(messages);
 
         this.eventMediator.boradcastEvent(EventAggregator.READ_CONVERSATION_MESSAGES, messages);
+        this.eventMediator.boradcastEvent(EventAggregator.READ_MESSAGE, messages[messages.length - 1]);
 
         return messages;
     }
