@@ -42,6 +42,7 @@ import { WebHookProvider } from "../../providers/WebHookProvider";
 import { InvokeMessageHooks } from "../../actions/messages/InvokeMessageHooks";
 import { UserLikesAMessage } from "../../actions/messages/UserLikesAMessage";
 import { UserReadConversationMessages } from "../../actions/messages/UserReadConversationMessages";
+import { GetConversationMessagesFeed } from "../../actions/messages/GetConversationMessagesFeed";
 
 const container = new Container();
 
@@ -61,6 +62,7 @@ container.bind<Repositories.IScheduledTaskRepository>(Types.IScheduledTaskReposi
 container.bind<string>("entityName").toConstantValue("scheduledTasks").whenInjectedInto(DB.ScheduledTask);
 
 container.bind<IMessageService>(Types.IMessageService).to(MessageService).inSingletonScope();
+container.bind<Services.IChatMessagesService>(Types.IChatMessagesService).to(Services.ChatMessagesService);
 container.bind<IWebHookProvider>(Types.IWebHookProvider).to(WebHookProvider);
 
 container.bind<actions.IAction>(Types.IAction).to(CreateConversation).whenTargetNamed("CreateConversation");
@@ -91,6 +93,7 @@ container.bind<actions.IAction>(Types.IAction).to(CreateDirectMessage).whenTarge
 container.bind<actions.IAction>(Types.IAction).to(GetUserConversations).whenTargetNamed("GetUserConversations");
 container.bind<actions.IAction>(Types.IAction).to(InvokeMessageHooks).whenTargetNamed("InvokeMessageHooks");
 container.bind<actions.IAction>(Types.IAction).to(UserLikesAMessage).whenTargetNamed("UserLikesAMessage");
+container.bind<actions.IAction>(Types.IAction).to(GetConversationMessagesFeed).whenTargetNamed(GetConversationMessagesFeed.alias);
 
 ////////////////////
 

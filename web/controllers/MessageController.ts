@@ -4,6 +4,7 @@ import { JsonController, Param, Body, Get, Post, Put, Delete, Req, Res, HttpCode
 import { ActionContext } from "../../actions";
 import { OrgAuthMiddleware } from "../middleware/";
 import { HttpError, UseAction } from "../decorators/";
+import { GetConversationMessagesFeed } from "../../actions/messages/GetConversationMessagesFeed";
 
 @JsonController()
 export class MessageController {
@@ -34,6 +35,28 @@ export class MessageController {
         actionContext.params = {
             orgKey: orgKey,
             conversationId: conversationId,
+        };
+        return await action.run(actionContext);
+    }
+
+    @Post("/v1/conversations/:conversationId/messagesFeed")
+    @HttpCode(200)
+    @HttpError(403, ExceptionTypes.UserNotAuthorizedException)
+    @HttpError(400, ExceptionTypes.ValidationException)
+    @UseAction(GetConversationMessagesFeed.alias)
+    @UseBefore(OrgAuthMiddleware)
+    public async getMessagesFeed(
+        @Param("orgKey") orgKey: any,
+        @Param("conversationId") conversationId: string,
+        @Body() payload: any,
+        action: Actions.IAction,
+    ) {
+        const actionContext = new ActionContext();
+        actionContext.params = {
+            orgKey: orgKey,
+            conversationId: conversationId,
+            cursor: payload.cursor,
+            limit: payload.limit || 15,
         };
         return await action.run(actionContext);
     }

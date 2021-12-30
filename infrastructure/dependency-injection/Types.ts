@@ -11,6 +11,7 @@ const Types = {
     IMessageRepository: Symbol("IMessageRepository"),
     IMessageService: Symbol("IMessageService"),
     IWebHookProvider: Symbol("IWebHookProvider"),
+    IChatMessagesService: Symbol("IChatMessagesService"),
 };
 
 export default Types;
