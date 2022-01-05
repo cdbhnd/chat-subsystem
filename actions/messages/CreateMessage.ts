@@ -19,13 +19,13 @@ export class CreateMessage extends OrganizationActionBase<Entities.IMessage> {
   private conversationRepo: IConversationRepository;
 
   constructor(
-    @inject(Types.IMessageRepository) messagerepo: Repositories.IMessageRepository,
+    @inject(Types.IMessageRepository) messageRepo: Repositories.IMessageRepository,
     @inject(Types.IOrganizationRepository) orgRepo,
     @inject(Types.IUserRepository) userRepo: Repositories.IUserRepository,
     @inject(Types.EventMediator) eventMediator: IEventMediator,
     @inject(Types.IConversationRepository) conversationRepo: IConversationRepository) {
     super(orgRepo);
-    this.messageRepo = messagerepo;
+    this.messageRepo = messageRepo;
     this.userRepo = userRepo;
     this.eventMediator = eventMediator;
     this.conversationRepo = conversationRepo;
