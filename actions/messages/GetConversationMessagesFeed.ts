@@ -13,7 +13,7 @@ export class GetConversationMessagesFeed extends OrganizationActionBase<Entities
 
     constructor(
         @inject(Types.IConversationRepository) private conversationRepo: Repositories.IConversationRepository,
-        @inject(Types.IChatMessagesService) private messageService: Entities.IChatMessagesService,
+        @inject(Types.IChatMessagesService) private messageService: Services.IChatMessagesService,
         @inject(Types.IOrganizationRepository) orgRepo: Repositories.IOrganizationRepository,
     ) {
         super(orgRepo);
@@ -32,7 +32,21 @@ export class GetConversationMessagesFeed extends OrganizationActionBase<Entities
             });
         }
 
-        return await this.messageService.getMessagesFeed(conversation.id, context.params.cursor, context.params.limit);
+        let messages: Entities.IMessage[] = [];
+        if (!context.params.messageId) {
+            messages = await this.messageService.getMessagesFeed(
+                conversation.id,
+                context.params.cursor,
+                context.params.limit,
+            );
+        } else {
+            messages = await this.messageService.getMessagesFromMessageId(conversation.id, context.params.messageId);
+        }
+
+        console.log("messages being sent");
+        console.log(messages);
+
+        return messages;
     }
 
     protected getConstraints(): any {
@@ -40,6 +54,7 @@ export class GetConversationMessagesFeed extends OrganizationActionBase<Entities
             conversationId: "string|required",
             limit: "integer",
             cursor: "string",
+            messageId: "string",
         };
     }
 
