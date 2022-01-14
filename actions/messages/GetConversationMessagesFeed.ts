@@ -43,9 +43,6 @@ export class GetConversationMessagesFeed extends OrganizationActionBase<Entities
             messages = await this.messageService.getMessagesFromMessageId(conversation.id, context.params.messageId);
         }
 
-        console.log("messages being sent");
-        console.log(messages);
-
         return messages;
     }
 
