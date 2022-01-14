@@ -57,6 +57,7 @@ export class MessageController {
             conversationId: conversationId,
             cursor: payload.cursor,
             limit: payload.limit || 15,
+            messageId: payload.messageId,
         };
         return await action.run(actionContext);
     }
